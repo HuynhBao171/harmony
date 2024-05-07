@@ -34,12 +34,6 @@ class _AssistantPageState extends State<AssistantPage> {
                   letterSpacing: 0.5,
                   height: 1.2),
               centerTitle: true,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
               bottom: const TabBar(
                 tabs: [
                   Tab(text: "Text Only"),
@@ -48,10 +42,7 @@ class _AssistantPageState extends State<AssistantPage> {
               ),
             ),
             body: TabBarView(
-              children: [
-                TextOnly(user: 'User'),
-                TextWithImage(user: 'User')
-              ],
+              children: [TextOnly(user: 'User'), TextWithImage(user: 'User')],
             )));
   }
 }
@@ -97,7 +88,7 @@ class _TextOnlyState extends State<TextOnly> {
     textChat.add({
       "role": "Gemini",
       "text":
-          "Xin chào! Tôi ở đây để giúp bạn tìm điểm đến du lịch phù hợp cho bạn.",
+          "Xin chào! Tôi ở đây để giúp bạn có trải nghiệm âm nhạc tuyệt vời.",
     });
   }
 
@@ -242,7 +233,8 @@ class _TextWithImageState extends State<TextWithImage> {
     super.initState();
   }
 
-  void fromTextAndImage({required String query, required String user, required File image}) {
+  void fromTextAndImage(
+      {required String query, required String user, required File image}) {
     setState(() {
       loading = true;
       textAndImageChat.add({
@@ -350,7 +342,9 @@ class _TextWithImageState extends State<TextWithImage> {
                       return;
                     }
                     fromTextAndImage(
-                        query: _textController.text, user: widget.user, image: imageFile!);
+                        query: _textController.text,
+                        user: widget.user,
+                        image: imageFile!);
                   },
                 ),
               ],

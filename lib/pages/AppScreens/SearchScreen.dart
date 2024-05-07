@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../constants/functions.dart';
-import '../../utils/API-Model.dart';
+import '../../model/API-Model.dart';
 import '../../components/videoPlayer.dart';
 import '../../components/inputFields.dart';
 import '../../api_key.dart';
@@ -80,10 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
         "&key=$apiKey";
 
     var response = await http.get(Uri.parse(url));
-    // print(response.body.runtimeType);
-    // print(response.runtimeType);
     var decodedJson = jsonDecode(response.body);
-    // print(decodedJson.runtimeType);
     setState(() {
       videos = decodedJson['items'].map<Video>((item) {
         return Video.fromJson(item);

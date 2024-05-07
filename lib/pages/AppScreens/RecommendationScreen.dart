@@ -9,7 +9,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../components/inputFields.dart';
 import '../../components/videoPlayer.dart';
 import '../../constants/textStyles.dart';
-import '../../utils/API-Model.dart';
+import '../../model/API-Model.dart';
 
 class RecommendationScreen extends StatefulWidget {
   static String id = "RecommendationScreen";

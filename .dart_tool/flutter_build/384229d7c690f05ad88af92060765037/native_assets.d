@@ -1,0 +1,1 @@
+ /Users/zien/Desktop/project/harmony/.dart_tool/flutter_build/384229d7c690f05ad88af92060765037/native_assets.yaml: 

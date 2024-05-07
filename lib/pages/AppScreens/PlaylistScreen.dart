@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../components/buttons.dart';
 import '../../components/videoPlayer.dart';
 import '../../constants/textStyles.dart';
-import '../../utils/API-Model.dart';
+import '../../model/API-Model.dart';
 
 
 class PlaylistScreen extends StatefulWidget {

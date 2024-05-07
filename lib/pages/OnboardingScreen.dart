@@ -41,7 +41,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 width: double.infinity,
               ),
               Image.asset(
-                "assets/images/appicon.png",
+                "assets/images/icon/appicon.png",
                 height: height * 0.13,
               ),
               Column(
@@ -80,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     title: "Continue with Google",
                     textStyle: kOnboardingButtonTextStyle,
                     prefix: Image.asset(
-                      "assets/images/google-icon.png",
+                      "assets/images/icon/google-icon.png",
                       height: 30,
                       width: 30,
                     ),

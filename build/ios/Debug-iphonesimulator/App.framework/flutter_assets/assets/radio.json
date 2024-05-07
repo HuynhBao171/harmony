@@ -1,0 +1,68 @@
+{
+  "radios": [
+
+
+    {
+      "id": 0,
+      "name": "92.7",
+      "tagline": "Suno Sunao, Life Banao!",
+      "color": "0xffa11431",
+      "desc": "The chills you get when you listen to music, is mostly caused by the brain releasing dopamine while anticipating the peak moment of a song.",
+      "url": "https://uk5.internet-radio.com/proxy/joyradio?mp=/stream",
+      "icon": "https://mytuner.global.ssl.fastly.net/media/tvos_radios/m8afyszryaqt.png",
+      "image": "https://e0.pxfuel.com/wallpapers/54/133/desktop-wallpaper-music-iphone-art-inspiration-galaxy-poster-pop-art-music-pop-art-thumbnail.jpg",
+      "lang": "Hindi",
+      "category": "pop",
+      "disliked": false,
+      "order": 1
+    },
+
+
+    {
+      "id": 1,
+      "name": "98.3",
+      "tagline": "Gaano Ka Sweet Dish",
+      "color": "0xff221420",
+      "desc": "There are few activities in life that utilizes the entire brain, and music is one of them.",
+      "url": "https://uk5.internet-radio.com/proxy/top80radio?mp=/stream",
+      "icon": "https://static.mytuner.mobi/media/tvos_radios/2z69hnevkvam.jpeg",
+      "image": "https://w.forfun.com/fetch/63/63da5cd7c95d494cb847c450dcbd1412.jpeg",
+      "lang": "Hindi",
+      "disliked": false,
+      "category": "rock",
+      "order": 2
+    },
+
+    {
+      "id": 5,
+      "name": "94",
+      "tagline": "Today's Hits",
+      "color": "0xff27383e",
+      "desc": "",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/977_HITS.mp3",
+      "icon": "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
+      "image": "https://i.pinimg.com/474x/3f/e0/56/3fe056afab6173eff8abd697864c7331.jpg",
+      "lang": "English",
+      "category": "rock",
+      "disliked": false,
+      "order": 6
+    },
+
+
+    {
+      "id": 6,
+      "name": "93",
+      "tagline": "Love Songs",
+      "color": "0xffa06a37",
+      "desc": "The brain responds to music the same way it responds to something that you eat.",
+      "url": "http://pavo.prostreaming.net:8052/stream",
+      "icon": "https://mytuner.global.ssl.fastly.net/media/tvos_radios/4evkagl48buu.jpeg",
+      "image": "https://i.pinimg.com/564x/d4/ca/26/d4ca266bb3b80c689a181d93b15cb33f.jpg",
+      "lang": "Hindi",
+      "category": "pop",
+      "disliked": false,
+      "order": 7
+    }
+  ]
+
+}

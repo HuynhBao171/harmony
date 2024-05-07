@@ -20,12 +20,12 @@ class _DashboardState extends State<Dashboard> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String username = "User";
   late String email;
-  String photoUrl = "https://user-images.githubusercontent.com/58645688/235341154-ae99214b-c447-47e2-9c92-3f82abd7cdf9.png";
+  String photoUrl = "";
   bool loader = false;
 
-  Future<void> getDetails() async{
+  Future<void> getDetails() async {
     User? user = FirebaseAuth.instance.currentUser;
-    if(user != null){
+    if (user != null) {
       username = user.displayName ?? username;
       photoUrl = user.photoURL ?? photoUrl;
       email = user.email ?? "Error Fetching Email";
@@ -54,11 +54,17 @@ class _DashboardState extends State<Dashboard> {
                   children: [
                     FutureBuilder(
                       future: getDetails(),
-                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                        return CircleAvatar(
-                          radius: 70,
-                          backgroundImage: NetworkImage(photoUrl),
-                        );
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (photoUrl != "") {
+                          return SizedBox(
+                            child: Image.network(photoUrl),
+                          );
+                        } else {
+                          return SizedBox(
+                            child: Image.asset("assets/images/icon/user.png"),
+                          );
+                        }
                       },
                     ),
                     const SizedBox(
@@ -78,47 +84,56 @@ class _DashboardState extends State<Dashboard> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                        email,
+                    Text(email,
                         style: GoogleFonts.outfit(
                             textStyle: TextStyle(
-                              fontSize: 13,
-                              letterSpacing: 1,
-                              color: Theme.of(context).colorScheme.secondary,
-                    ))),
+                          fontSize: 13,
+                          letterSpacing: 1,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ))),
                     const SizedBox(
                       height: 50,
                     ),
                     TextButton(
                       onPressed: () async {
                         _auth.signOut();
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
                         prefs.setBool("loggedIn", false);
-                        Navigator.pushNamedAndRemoveUntil(context, OnboardingScreen.id, ModalRoute.withName(BottomNavbar.id));
+                        Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            OnboardingScreen.id,
+                            ModalRoute.withName(BottomNavbar.id));
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // button background color
-                        foregroundColor: MaterialStateProperty.all<Color>(Colors.black87), // button text color
-                        padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 60, vertical: 13)), // button padding
-                        textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 16)), // button text style
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))), // button shape
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // button background color
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.black87), // button text color
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                horizontal: 60,
+                                vertical: 13)), // button padding
+                        textStyle: MaterialStateProperty.all<TextStyle>(
+                            const TextStyle(fontSize: 16)), // button text style
+                        shape: MaterialStateProperty
+                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(8))), // button shape
                       ),
-                      child: Text(
-                        "Sign Out",
-                        style: GoogleFonts.outfit(
-                          textStyle: const TextStyle(
+                      child: Text("Sign Out",
+                          style: GoogleFonts.outfit(
+                            textStyle: const TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 28.0,
-                          ),
-                        )
-                      ),
+                            ),
+                          )),
                     )
                   ],
                 ),
                 SizedBox(
-                  height: height*0.3,
+                  height: height * 0.3,
                 )
-
               ],
             ),
           ),

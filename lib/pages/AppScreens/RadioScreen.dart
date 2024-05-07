@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../utils/RadioModel.dart';
+import '../../model/RadioModel.dart';
 
 
 class RadioHS extends StatefulWidget {

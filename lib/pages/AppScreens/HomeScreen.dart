@@ -2,10 +2,11 @@
 
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:harmony/api_key.dart';
 import 'package:harmony/pages/AppScreens/Dashboard.dart';
 import 'package:harmony/pages/AppScreens/PlaylistScreen.dart';
 import 'package:harmony/pages/AppScreens/RecommendationScreen.dart';
-import 'package:harmony/utils/API-Model.dart';
+import 'package:harmony/model/API-Model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,15 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isactive1 = true;
   bool isactive2 = false;
   String username = "User";
-  String photoUrl = "https://user-images.githubusercontent.com/58645688/235341154-ae99214b-c447-47e2-9c92-3f82abd7cdf9.png";
+  String photoUrl = "";
   bool loader = false;
 
-  Future<void> getDetails() async{
+  Future<void> getDetails() async {
     User? user = FirebaseAuth.instance.currentUser;
-    if(user != null){
+    if (user != null) {
       var name = user.displayName ?? username;
       int index = name.indexOf(" ");
-      if(index!=-1) name =  name.substring(0, name.indexOf(" "));
+      if (index != -1) name = name.substring(0, name.indexOf(" "));
       username = name;
       photoUrl = user.photoURL ?? photoUrl;
     }
@@ -69,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: <Widget>[
                             FutureBuilder(
                               future: getDetails(),
-                              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<dynamic> snapshot) {
                                 return Text(
                                   "Hello $username",
                                   textAlign: TextAlign.left,
@@ -77,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     textStyle: TextStyle(
                                       fontSize: 32,
                                       fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                   ),
                                 );
@@ -89,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text("Let's Play Some Music !",
                                 style: GoogleFonts.outfit(
                                     textStyle: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ))),
                           ],
                         ),
@@ -97,16 +102,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.pushNamed(context, Dashboard.id);
                               },
                               child: FutureBuilder(
                                 future: getDetails(),
-                                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                  return CircleAvatar(
-                                    radius: 28,
-                                    backgroundImage: NetworkImage(photoUrl),
-                                  );
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<dynamic> snapshot) {
+                                  String photoUrl = snapshot.data ?? "";
+                                  if (photoUrl != "") {
+                                    return SizedBox(
+                                      width: 70,
+                                      height: 70,
+                                      child: Image.network(photoUrl),
+                                    );
+                                  } else {
+                                    return SizedBox(
+                                      width: 70,
+                                      height: 70,
+                                      child: Image.asset(
+                                          "assets/images/icon/user.png"),
+                                    );
+                                  }
                                 },
                               ),
                             ),
@@ -119,27 +136,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 20,
                   ),
                   SearchInputField(
-                      myController: myController,
-                      hintText: "What do you want to listen to?",
-                      onSubmitted: (query){
-                        query = query?.trimLeft();
-                        if(query != ""){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BottomNavbar(
-                                searchQuery: query,
-                              ),
+                    myController: myController,
+                    hintText: "What do you want to listen to?",
+                    onSubmitted: (query) {
+                      query = query?.trimLeft();
+                      if (query != "") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BottomNavbar(
+                              searchQuery: query,
                             ),
-                          );
-                        }
-                      },
+                          ),
+                        );
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: 25,
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.pushNamed(context, RecommendationScreen.id);
                     },
                     child: Container(
@@ -149,7 +166,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(10.0),
                         border: Border.all(
-                          color: Colors.white, // set the border color with opacity
+                          color:
+                              Colors.white, // set the border color with opacity
                           width: 1.0, // set the border width
                         ),
                       ),
@@ -188,7 +206,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       textStyle: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.secondary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                       ),
                                     ),
                                   ),
@@ -206,10 +226,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   const Visibility(
-                                    // maintainSize: true,
-                                    // maintainAnimation: true,
-                                    // maintainState: true,
-                                    // visible: false,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
@@ -228,7 +244,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-
                   const SizedBox(
                     height: 25,
                   ),
@@ -236,50 +251,42 @@ class _HomeScreenState extends State<HomeScreen> {
                     "Daily Mix",
                     style: kPlaylistTileStyle,
                   ),
-              SizedBox(
-                height: 200,
-                width: width,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: dailyMix.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () async {
-                        setState(() {
-                          loader = true;
-                        });
-                        List<Songs> list = [];
-                        await playlistsData("dailyMix", dailyMix[index].id).then((results) {
-                          for(var result in results){
-                            var json = jsonDecode(result);
+                  SizedBox(
+                    height: 200,
+                    width: width,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: dailyMix.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {
                             setState(() {
-                              list.add(Songs.fromJson(json));
+                              loader = true;
                             });
-                          }
-                        });
-                        setState(() {
-                          loader = false;
-                        });
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PlaylistScreen(
-                              title: 'Daily Mix ${dailyMix[index].id}',
-                              songs: list,
-                            ),
+                            List<Songs> list =
+                                await playlistsData(dailyMix[index].title);
+                            setState(() {
+                              loader = false;
+                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PlaylistScreen(
+                                  title: dailyMix[index].title,
+                                  songs: list,
+                                ),
+                              ),
+                            );
+                          },
+                          child: PlaylistCard(
+                            imageUrl: dailyMix[index].iconUrl,
+                            text: dailyMix[index].title,
                           ),
                         );
                       },
-                      child: PlaylistCard(
-                        imageUrl: dailyMix[index].iconUrl,
-                        text: dailyMix[index].title,
-                      ),
-                    );
-                  },
-                ),
-              ),
-
+                    ),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -300,15 +307,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               loader = true;
                             });
-                            List<Songs> list = [];
-                            await playlistsData("albums", albums[index].id).then((results) {
-                              for(var result in results){
-                                var json = jsonDecode(result);
-                                setState(() {
-                                  list.add(Songs.fromJson(json));
-                                });
-                              }
-                            });
+                            List<Songs> list =
+                                await playlistsData(albums[index].title);
                             setState(() {
                               loader = false;
                             });
@@ -330,9 +330,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-
-
-
                 ],
               ),
             ),
@@ -343,24 +340,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-
-Future<List<String>> playlistsData(String urlPostfix, String type) async {
+Future<List<Songs>> playlistsData(String query) async {
   try {
-    final url = Uri.parse('https://moodify-backend.onrender.com/api/$urlPostfix');
-    Map<String, String> data = {'text': type};
-    String body = jsonEncode(data);
-    // Use `data` in request body if using Node.js server as backend
-    // Use `body` in request body if using FastAPI server as backend
-    final response =
-    await http.post(url, body: body).timeout(const Duration(seconds: 15));
-    Map<String, dynamic> temp = await json.decode(response.body);
-    // print(temp['data']);
-    List<String> songs = List<String>.from(temp['data'] as List);
-    // print(songs);
-    // return [];
+    var url = "https://www.googleapis.com/youtube/v3/search"
+        "?part=snippet"
+        "&maxResults=10"
+        "&q=$query"
+        "&type=video"
+        "&key=$apiKey";
+
+    var response = await http.get(Uri.parse(url));
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    var decodedJson = jsonDecode(response.body);
+
+    List<Songs> songs = decodedJson['items'].map<Songs>((item) {
+      return Songs.fromJson(item);
+    }).toList();
+
+    print('Songs: $songs');
+
     return songs;
   } catch (e) {
+    print('Error: $e');
     return [];
   }
 }
-

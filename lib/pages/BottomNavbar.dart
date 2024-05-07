@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:harmony/pages/AppScreens/ChatScreen.dart';
 import 'package:harmony/pages/AppScreens/SearchScreen.dart';
+import 'package:harmony/pages/AssistantScreens/assistant_page.dart';
 
 import 'AppScreens/HomeScreen.dart';
 import 'AppScreens/RadioScreen.dart';
@@ -31,7 +31,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
       const HomeScreen(),
       SearchScreen(searchQuery: value,),
       const RadioHS(),
-      const ChatPage(),
+      const AssistantPage(),
     ];
   }
 

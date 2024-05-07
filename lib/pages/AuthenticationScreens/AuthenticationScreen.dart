@@ -10,7 +10,6 @@ import '../../constants/textStyles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../components/inputFields.dart';
 
-
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({
     super.key,
@@ -32,7 +31,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
 
-  void preAuth(){
+  void preAuth() {
     isError = false;
     FocusScopeNode currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus) {
@@ -68,7 +67,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           emailController: usernameController,
                           hintText: "Enter your name",
                           labelText: "Username",
-                          padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, bottom: 25),
                           borderRadius: 8,
                           fillColor: Theme.of(context).colorScheme.tertiary,
                         ),
@@ -78,7 +78,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         hintText: "Enter your email",
                         labelText: "Email",
                         padding: (widget.isNewUser)
-                            ? const EdgeInsets.only(left: 25, right: 25) : null,
+                            ? const EdgeInsets.only(left: 25, right: 25)
+                            : null,
                         borderRadius: 8,
                         fillColor: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -108,65 +109,89 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     ],
                   ),
                   OnboardButton(
-                    width: width*0.45,
-                    height: height*0.08,
-                    padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
-                    title: (widget.isNewUser) ? "Register" : "Log In",
-                    textStyle: kOnboardingButtonTextStyle,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    borderRadius: 50.0,
-                    onPressed: () async {
-                      // SharedPreferences prefs = await SharedPreferences.getInstance();
-                      if(emailController.text.trimLeft() != ""
-                          && passwordController.text.trimLeft() != ""
-                          && (widget.isNewUser) ? usernameController.text.trimLeft() != "" : true
-                      ){
-                        preAuth();
-                        try{
-                          UserCredential  newUser = (widget.isNewUser) ?
-                          await _auth.createUserWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          ).timeout(const Duration(seconds: 2)) :
-                          await _auth.signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          ).timeout(const Duration(seconds: 2));
-                          User? user = newUser.user;
-                          if(user != null){
-                            (widget.isNewUser)
-                                ? await user.updateDisplayName(usernameController.text)
-                                :null ;
-                            var name = user.displayName;
-                            int? index = name?.indexOf(" ");
-                            if(index!=-1) name =  name?.substring(0, name.indexOf(" "));
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setBool("loggedIn", true);
+                      width: width * 0.45,
+                      height: height * 0.08,
+                      padding: const EdgeInsets.only(
+                          left: 25, right: 25, bottom: 25),
+                      title: (widget.isNewUser) ? "Register" : "Log In",
+                      textStyle: kOnboardingButtonTextStyle,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      borderRadius: 50.0,
+                      onPressed: () async {
+                        // SharedPreferences prefs = await SharedPreferences.getInstance();
+                        if (emailController.text.trimLeft() != "" &&
+                                passwordController.text.trimLeft() != "" &&
+                                (widget.isNewUser)
+                            ? usernameController.text.trimLeft() != ""
+                            : true) {
+                          preAuth();
+                          try {
+                            UserCredential newUser = (widget.isNewUser)
+                                ? await _auth
+                                    .createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    )
+                                    .timeout(const Duration(seconds: 2))
+                                : await _auth
+                                    .signInWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    )
+                                    .timeout(const Duration(seconds: 2));
+                            User? user = newUser.user;
+                            if (user != null) {
+                              (widget.isNewUser)
+                                  ? await user.updateDisplayName(
+                                      usernameController.text)
+                                  : null;
+                              var name = user.displayName;
+                              int? index = name?.indexOf(" ");
+                              if (index != -1)
+                                name = name?.substring(0, name.indexOf(" "));
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setBool("loggedIn", true);
+                              setState(() {
+                                loader = false;
+                              });
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  BottomNavbar.id,
+                                  ModalRoute.withName(OnboardingScreen.id));
+                            }
+                          } on FirebaseAuthException catch (e) {
                             setState(() {
                               loader = false;
+                              errorMessage = e.message.toString();
+                              isError = true;
                             });
-                            Navigator.pushNamedAndRemoveUntil(context, BottomNavbar.id, ModalRoute.withName(OnboardingScreen.id));
+                          } catch (e) {
+                            setState(() {
+                              loader = false;
+                              errorMessage =
+                                  "An error occured. Try Again Later";
+                              isError = true;
+                            });
                           }
                         }
-                        on FirebaseAuthException catch (e){
-                          setState(() {
-                            loader = false;
-                            errorMessage = e.message.toString();
-                            isError = true;
-                          });
-                        }
-                        catch(e){
-                          setState(() {
-                            loader = false;
-                            errorMessage = "An error occured. Try Again Later";
-                            isError = true;
-                          });
-                        }
-                      }
-                    }
-                  ),
+                      }),
                   SizedBox(
-                    height: height*0.3,
+                    height: height * 0.3,
+                    child: const Column(
+                      children: <Widget>[
+                        Text(
+                          'Email: test@gmail.com',
+                          style: TextStyle(
+                              fontSize: 20), // Change the font size here
+                        ),
+                        Text(
+                          'Password: 123456',
+                          style: TextStyle(
+                              fontSize: 20), // Change the font size here
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
