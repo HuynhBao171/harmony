@@ -49,6 +49,7 @@ dependencies:
   youtube_player_flutter: ^9.0.0
   freezed: ^2.5.2
   json_annotation: ^4.1.0
+  deep_pick: ^1.0.0
   
   
 

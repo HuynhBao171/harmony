@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'constants/theme.dart';
 
 late bool isLoggedIn;
+var decodedJson;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();

@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:harmony/api_key.dart';
+import 'package:harmony/main.dart';
 import 'package:harmony/model/song.dart';
 import 'package:harmony/pages/AppScreens/Dashboard.dart';
 import 'package:harmony/pages/AppScreens/PlaylistScreen.dart';
@@ -352,7 +353,7 @@ Future<List<Songs>> playlistsData(String query) async {
 
     var response = await http.get(Uri.parse(url));
 
-    var decodedJson = jsonDecode(response.body);
+    decodedJson = jsonDecode(response.body);
 
     List<Songs> songs = (decodedJson['items'] as List).map((item) {
       return Songs.fromJsonString(jsonEncode(item));

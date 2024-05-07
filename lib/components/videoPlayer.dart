@@ -1,9 +1,9 @@
-
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harmony/components/buttons.dart';
+import 'package:harmony/pages/AppScreens/DetailScreen.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -16,7 +16,8 @@ class VideoPlayerScreen extends StatefulWidget {
   final String channelTitle;
   final String title;
 
-  const VideoPlayerScreen({super.key, 
+  const VideoPlayerScreen({
+    super.key,
     required this.videoId,
     required this.thumbnailUrl,
     required this.title,
@@ -36,7 +37,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   int videoStart = 0;
   int videoEnd = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -49,16 +49,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         hideControls: true,
       ),
     )..addListener(() {
-      videoEnd = _controller.metadata.duration.inSeconds;
-      setState(() {
-        videoStart = _controller.value.position.inSeconds;
-      });
-      if (videoStart == videoEnd-1 && videoEnd != 0) {
+        videoEnd = _controller.metadata.duration.inSeconds;
+        setState(() {
+          videoStart = _controller.value.position.inSeconds;
+        });
+        if (videoStart == videoEnd - 1 && videoEnd != 0) {
           setState(() {
             isVideoFinished = true;
           });
-      }
-    });
+        }
+      });
   }
 
   @override
@@ -80,43 +80,46 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             children: [
               Column(
                 children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const GoBackButton(
-                          padding: EdgeInsets.all(0),
-                          iconSize: 32,
-                        ),
-                        ToggleSwitch(
-                          minWidth: 80.0,
-                          cornerRadius: 20.0,
-                          activeBgColor: [Theme.of(context).colorScheme.primary],
-                          activeFgColor: Colors.white,
-                          inactiveBgColor: Colors.white.withOpacity(0.2),
-                          inactiveFgColor: Colors.white,
-                          initialLabelIndex: toggleSwitch,
-                          totalSwitches: 2,
-                          labels: const ['Video', 'Song'],
-                          radiusStyle: true,
-                          onToggle: (index) {
-                            setState(() {
-                              toggleSwitch = index!;
-                              showVideo = !showVideo;
-                            });
-                          },
-                        ),
-                        const Visibility(
-                          maintainSize: true,
-                          maintainAnimation: true,
-                          maintainState: true,
-                          visible: false,
-                          child: GoBackButton(
-                            padding: EdgeInsets.all(0),
-                            iconSize: 32,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const GoBackButton(
+                        padding: EdgeInsets.all(0),
+                        iconSize: 32,
+                      ),
+                      ToggleSwitch(
+                        minWidth: 80.0,
+                        cornerRadius: 20.0,
+                        activeBgColor: [Theme.of(context).colorScheme.primary],
+                        activeFgColor: Colors.white,
+                        inactiveBgColor: Colors.white.withOpacity(0.2),
+                        inactiveFgColor: Colors.white,
+                        initialLabelIndex: toggleSwitch,
+                        totalSwitches: 2,
+                        labels: const ['Video', 'Song'],
+                        radiusStyle: true,
+                        onToggle: (index) {
+                          setState(() {
+                            toggleSwitch = index!;
+                            showVideo = !showVideo;
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons
+                            .info_outline), // replace with your desired icon
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                      videoId: widget.videoId,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
               Column(
@@ -145,11 +148,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     widget.title,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.outfit(
-                      textStyle: const TextStyle(
-                        fontSize:25,
-                        fontWeight: FontWeight.w700,
-                      )
-                    ),
+                        textStyle: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                    )),
                   ),
                   const SizedBox(
                     height: 8,
@@ -157,19 +159,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   Text(
                     widget.channelTitle,
                     style: GoogleFonts.outfit(
-                      textStyle: const TextStyle(
-                        fontSize:16,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w700,
-                      )
-                    ),
+                        textStyle: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700,
+                    )),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   // Text("-------------------------------------------------------------------------------"),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0, vertical: 20.0),
                     child: Column(
                       children: [
                         ProgressBar(
@@ -191,7 +193,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 style: kMusicTimerStyle,
                               ),
                               Text(
-                                  formatDuration(videoEnd),
+                                formatDuration(videoEnd),
                                 style: kMusicTimerStyle,
                               ),
                             ],
@@ -219,33 +221,39 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         onPressed: () {
                           _controller.seekTo(Duration(
                               seconds:
-                              _controller.value.position.inSeconds - 10));
+                                  _controller.value.position.inSeconds - 10));
                         },
-                      ),MaterialButton(
+                      ),
+                      MaterialButton(
                         shape: const CircleBorder(),
                         color: Theme.of(context).colorScheme.primary,
                         padding: const EdgeInsets.all(18.0),
                         child: Hero(
                           tag: 'play',
                           child: Icon(
-                            (isVideoFinished) ? Icons.replay :
-                            (isPlaying) ? Icons.pause : Icons.play_arrow,
+                            (isVideoFinished)
+                                ? Icons.replay
+                                : (isPlaying)
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
                             size: 30,
                           ),
                         ),
                         onPressed: () {
                           setState(() {
-                            if(isVideoFinished) {
+                            if (isVideoFinished) {
                               _controller.seekTo(const Duration(seconds: 0));
                               isVideoFinished = false;
-                            }
-                            else{
-                              (isPlaying) ? _controller.pause() : _controller.play();
+                            } else {
+                              (isPlaying)
+                                  ? _controller.pause()
+                                  : _controller.play();
                               isPlaying = !isPlaying;
                             }
                           });
                         },
-                      ),MaterialButton(
+                      ),
+                      MaterialButton(
                         shape: const CircleBorder(),
                         // color: Theme.of(context).colorScheme.primary,
                         color: Colors.white.withOpacity(0.2),
@@ -254,13 +262,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           Icons.forward_10,
                           size: 30,
                         ),
-                        onPressed:  () {
+                        onPressed: () {
                           _controller.seekTo(Duration(
                               seconds:
-                              _controller.value.position.inSeconds + 10));
+                                  _controller.value.position.inSeconds + 10));
                         },
                       ),
-
                     ],
                   ),
                   const SizedBox(

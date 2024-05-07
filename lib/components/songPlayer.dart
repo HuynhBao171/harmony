@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harmony/components/buttons.dart';
+import 'package:harmony/pages/AppScreens/DetailScreen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../constants/functions.dart';
@@ -75,25 +76,28 @@ class _SongPlayerScreenState extends State<SongPlayerScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
+              Column(
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GoBackButton(
+                      const GoBackButton(
                         padding: EdgeInsets.all(0),
                         iconSize: 32,
                       ),
-                      // Visibility(
-                      //   maintainSize: true,
-                      //   maintainAnimation: true,
-                      //   maintainState: true,
-                      //   visible: false,
-                      //   child: GoBackButton(
-                      //     padding: EdgeInsets.all(0),
-                      //     iconSize: 32,
-                      //   ),
-                      // ),
+                      IconButton(
+                        icon: const Icon(Icons
+                            .info_outline), // replace with your desired icon
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                      videoId: widget.videoId,
+                                    )),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ],
