@@ -8,7 +8,6 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../model/RadioModel.dart';
 
-
 class RadioHS extends StatefulWidget {
   static String id = "RadioScreen";
   const RadioHS({super.key});
@@ -65,109 +64,105 @@ class _RadioHSState extends State<RadioHS> {
         fit: StackFit.expand,
         children: <Widget>[
           AppBar(
-            // toolbarHeight: 100,
             automaticallyImplyLeading: false,
-            title: const Text("Radio",
+            title: const Text(
+              "Radio",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 35,
                 color: Colors.white,
                 fontFamily: 'OpenSans',
-              ),),
+              ),
+            ),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
-            // centerTitle: true,
           ).h(100).p16(),
           radios != null
               ? Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 110,
-                ),
-                VxSwiper.builder(
-                    itemCount: radios!.length,
-                    aspectRatio: 0.73,
-                    // enlargeCenterPage: true,
-                    itemBuilder: (context, index) {
-                      final rad = radios![index];
-                      return VxBox(
-                          child: ZStack([
-                            Positioned(
-                              top: 5.0,
-                              right: 5.0,
-                              child: VxBox(
-                                child:
-                                rad.category.text.uppercase.white.make().px16(),
-                              )
-                                  .height(40)
-                                  .black
-                                  .alignCenter
-                                  .withRounded(value: 30.0)
-                                  .make(),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: VStack(
-                                [
-                                  rad.name.text.xl3.white.bold.make(),
-                                  20.heightBox,
-                                  rad.tagline.text.sm.white.semiBold.make(),
-                                ],
-                                crossAlignment: CrossAxisAlignment.center,
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 110,
+                      ),
+                      VxSwiper.builder(
+                          itemCount: radios!.length,
+                          aspectRatio: 0.73,
+                          itemBuilder: (context, index) {
+                            final rad = radios![index];
+                            return VxBox(
+                                    child: ZStack([
+                              Positioned(
+                                top: 5.0,
+                                right: 5.0,
+                                child: VxBox(
+                                  child: rad.category.text.uppercase.white
+                                      .make()
+                                      .px16(),
+                                )
+                                    .height(40)
+                                    .black
+                                    .alignCenter
+                                    .withRounded(value: 30.0)
+                                    .make(),
                               ),
-                            ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: [
-                                const Icon(
-                                  CupertinoIcons.play_circle,
-                                  size: 30,
-                                  color: Colors.white,
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: VStack(
+                                  [
+                                    rad.name.text.xl3.white.bold.make(),
+                                    20.heightBox,
+                                    rad.tagline.text.sm.white.semiBold.make(),
+                                  ],
+                                  crossAlignment: CrossAxisAlignment.center,
                                 ),
-                                20.heightBox,
-                                "Double Tap to play".text.gray300.make()
-                              ].vStack(),
-                            ),
-                          ]))
-                          .clip(Clip.antiAlias)
-                          .bgImage(
-                        DecorationImage(
-                            image: NetworkImage(rad.image),
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.darken)),
-                      )
-                          .border()
-                          .withRounded(value: 20.0)
-                          .make()
-                          .onInkDoubleTap(() {
-                        playMusic(rad.url);
-                      }).p16();
-                    }).centered(),
-              ],
-            ),
-          )
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: [
+                                  const Icon(
+                                    CupertinoIcons.play_circle,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+                                  20.heightBox,
+                                  "Double Tap to play".text.gray300.make()
+                                ].vStack(),
+                              ),
+                            ]))
+                                .clip(Clip.antiAlias)
+                                .bgImage(
+                                  DecorationImage(
+                                      image: NetworkImage(rad.image),
+                                      fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          Colors.black.withOpacity(0.4),
+                                          BlendMode.darken)),
+                                )
+                                .border()
+                                .withRounded(value: 20.0)
+                                .make()
+                                .onInkDoubleTap(() {
+                              playMusic(rad.url);
+                            }).p16();
+                          }).centered(),
+                    ],
+                  ),
+                )
               : const Center(
-            child: CircularProgressIndicator(),
-          ),
-
+                  child: CircularProgressIndicator(),
+                ),
           Align(
             alignment: Alignment.bottomCenter,
             child: [
-              // if (_isPlaying)
-              //   "Playing Now - ${_selectedradio.name} FM"
-              //       .text
-              //       .orange800
-              //       .makeCentered(),
               if (_isPlaying)
                 SizedBox(
                   width: 200,
                   height: 50,
                   child: FittedBox(
-                    fit: BoxFit.fill,
-                    child: Image.asset("assets/orange-music-wave-doodle.gif")
-                  ),
+                      fit: BoxFit.fill,
+                      child:
+                          Image.asset("assets/orange-music-wave-doodle.gif")),
                 ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -185,7 +180,7 @@ class _RadioHSState extends State<RadioHS> {
                 }),
               ),
             ].vStack(),
-          ).pOnly(bottom: context.percentHeight * 0),
+          ),
         ],
       ),
     );

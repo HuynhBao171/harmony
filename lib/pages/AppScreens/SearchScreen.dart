@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, file_names
 
 import 'dart:convert';
+import 'package:harmony/model/song.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../constants/functions.dart';
@@ -15,7 +16,8 @@ class SearchScreen extends StatefulWidget {
   static String id = "SearchScreen";
 
   String? searchQuery;
-  SearchScreen({super.key, 
+  SearchScreen({
+    super.key,
     this.searchQuery,
   });
   @override
@@ -33,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     getRecentSearches();
-    if(widget.searchQuery != null){
+    if (widget.searchQuery != null) {
       searchYoutube(widget.searchQuery!);
       setState(() {
         myController.text = widget.searchQuery!;
@@ -42,26 +44,27 @@ class _SearchScreenState extends State<SearchScreen> {
       });
     }
   }
+
   @override
-  void dispose() async{
+  void dispose() async {
     saveRecentSearches();
     super.dispose();
   }
 
-  Future<void> saveRecentSearches() async{
+  Future<void> saveRecentSearches() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> data = [];
-    for(var search in recentSearches){
+    for (var search in recentSearches) {
       data.add(jsonEncode(search));
     }
     prefs.setStringList('recentSearches', data);
   }
 
-  Future<void> getRecentSearches() async{
+  Future<void> getRecentSearches() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? searches = prefs.getStringList('recentSearches');
-    if(searches != null){
-      for(String search in searches){
+    if (searches != null) {
+      for (String search in searches) {
         // print(search);
         var json = jsonDecode(search);
         setState(() {
@@ -95,14 +98,14 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: height*0.18,
+        toolbarHeight: height * 0.18,
         elevation: 0,
         flexibleSpace: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: height*0.025,
+                height: height * 0.025,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,11 +121,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         size: 30,
                       ),
                       onPressed: () {
-                        (widget.searchQuery != null)? Navigator.pop(context) :
-                        setState(() {
-                          showResults = false;
-                          myController.clear();
-                        });
+                        (widget.searchQuery != null)
+                            ? Navigator.pop(context)
+                            : setState(() {
+                                showResults = false;
+                                myController.clear();
+                              });
                       },
                     ),
                   SizedBox(
@@ -185,14 +189,19 @@ class _SearchScreenState extends State<SearchScreen> {
                       videos[index].channelTitle,
                       style: kMusicInfoStyle,
                     ),
-                    trailing: const Icon(Icons.play_arrow, color: Colors.white,),
+                    trailing: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                    ),
                     onTap: () => {
-                      recentSearches.insert(0, Songs(
+                      recentSearches.insert(
+                        0,
+                        Songs(
                           id: videos[index].id,
                           channelTitle: videos[index].channelTitle,
                           title: trimTitle(videos[index].title),
                           thumbnailUrl: videos[index].thumbnailUrl,
-                      ),
+                        ),
                       ),
                       Navigator.push(
                         context,
@@ -221,16 +230,19 @@ class _SearchScreenState extends State<SearchScreen> {
                       style: kMusicInfoStyle,
                     ),
                     title: Text(
-                        recentSearches[index].title,
-                        style: kMusicTitleStyle,
+                      recentSearches[index].title,
+                      style: kMusicTitleStyle,
                     ),
                     trailing: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           recentSearches.remove(recentSearches[index]);
                         });
                       },
-                      child: const Icon(Icons.close_sharp, color: Colors.grey,),
+                      child: const Icon(
+                        Icons.close_sharp,
+                        color: Colors.grey,
+                      ),
                     ),
                     onTap: () => {
                       Navigator.push(
@@ -252,5 +264,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-
-

@@ -29,33 +29,33 @@ class Video {
       };
 }
 
-class Songs {
-  final String id;
-  final String title;
-  final String thumbnailUrl;
-  final String channelTitle;
+// class Songs {
+//   final String id;
+//   final String title;
+//   final String thumbnailUrl;
+//   final String channelTitle;
 
-  Songs(
-      {required this.id,
-      required this.channelTitle,
-      required this.title,
-      required this.thumbnailUrl});
+//   Songs(
+//       {required this.id,
+//       required this.channelTitle,
+//       required this.title,
+//       required this.thumbnailUrl});
 
-  factory Songs.fromJson(Map<String, dynamic> json) {
-    return Songs(
-      id: json['id']['videoId'],
-      title: json['snippet']['title'],
-      thumbnailUrl: json['snippet']['thumbnails']['high']['url'],
-      channelTitle: json['snippet']['channelTitle'],
-    );
-  }
-  Map<String, dynamic> toJson() => {
-        'id/videoId': id,
-        'snippet/title': title,
-        'snippet/thumbnails/high/url': thumbnailUrl,
-        'snippet/channelTitle': channelTitle,
-      };
-}
+  // factory Songs.fromJson(Map<String, dynamic> json) {
+  //   return Songs(
+  //     id: json['id']['videoId'],
+  //     title: json['snippet']['title'],
+  //     thumbnailUrl: json['snippet']['thumbnails']['high']['url'],
+  //     channelTitle: json['snippet']['channelTitle'],
+  //   );
+  // }
+  // Map<String, dynamic> toJson() => {
+  //       'id/videoId': id,
+  //       'snippet/title': title,
+  //       'snippet/thumbnails/high/url': thumbnailUrl,
+  //       'snippet/channelTitle': channelTitle,
+  //     };
+// }
 
 class AlbumCards {
   final String id;
@@ -74,49 +74,40 @@ var dailyMix = [
   AlbumCards(
       id: "1",
       title: "Daily Mix 1",
-      iconUrl:
-          "https://upload.wikimedia.org/wikipedia/en/thumb/2/26/Black_Pink_-_Square_Up_artwork.png/220px-Black_Pink_-_Square_Up_artwork.png"),
+      iconUrl: 'assets/images/album_cover/dailyMix1.png'),
   AlbumCards(
       id: "2",
       title: "Daily Mix 2",
-      iconUrl:
-          'https://i.scdn.co/image/ab67616d0000b273e960ebdd55eff9ee95dc85fb'),
+      iconUrl: 'assets/images/album_cover/dailyMix2.jpeg'),
   AlbumCards(
       id: "3",
       title: "Daily Mix 3",
-      iconUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLyC_WrqH3dfkrifv9Uj494gjXGUzDDb4ydQ&usqp=CAU'),
+      iconUrl: 'assets/images/album_cover/dailyMix3.jpeg'),
   AlbumCards(
       id: "4",
       title: "Daily Mix 4",
-      iconUrl:
-          'https://www.musicinminnesota.com/wp-content/uploads/2022/01/Photo-from-Adobe-Stock.jpg'),
+      iconUrl: 'assets/images/album_cover/dailyMix4.jpeg'),
   AlbumCards(
       id: "5",
       title: "Daily Mix 5",
-      iconUrl:
-          'https://cdn.dribbble.com/users/905938/screenshots/3441423/cover-4-vinyl-dribbble.jpg'),
+      iconUrl: 'assets/images/album_cover/dailyMix5.jpeg'),
 ];
 
 var albums = [
   AlbumCards(
       id: "1",
       title: "Desi Hip-Hop",
-      iconUrl:
-          "https://e1.pxfuel.com/desktop-wallpaper/866/656/desktop-wallpaper-hip-hop-rapper-in-pinterest-krsna.jpg"),
+      iconUrl: 'assets/images/album_cover/album1.jpeg'),
   AlbumCards(
       id: "2",
       title: "English Hip-Hop",
-      iconUrl:
-          'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.canva.com%2Falbum-covers%2Ftemplates%2Fhip-hop%2F&psig=AOvVaw2Oh7MxD0hoKWTwBKtsA0mH&ust=1715139206474000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPjLysvN-oUDFQAAAAAdAAAAABAE'),
+      iconUrl: 'assets/images/album_cover/album2.jpeg'),
   AlbumCards(
       id: "3",
       title: "English Songs",
-      iconUrl:
-          'https://upload.wikimedia.org/wikipedia/en/a/a5/Closer_%28featuring_Halsey%29_%28Official_Single_Cover%29_by_The_Chainsmokers.png'),
+      iconUrl: 'assets/images/album_cover/album3.png'),
   AlbumCards(
       id: "4",
       title: "Classical Hindi Songs",
-      iconUrl:
-          'https://img.wynk.in/unsafe/200x200/filters:no_upscale():strip_exif():format(jpg)/http://s3.ap-south-1.amazonaws.com/discovery-prod-arsenal/arsenal/artworks/64183928c91f9d41080a2364/COLLECTION_464298048435.png'),
+      iconUrl: 'assets/images/album_cover/album4.jpeg'),
 ];

@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:harmony/components/buttons.dart';
+import 'package:harmony/model/song.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
