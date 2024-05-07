@@ -10,11 +10,11 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		5XIMkq5D0eGZJt7AWpKCOb+Ptlw=
+		j6kxdWa98rUWuCtwdixYx07PqVo=
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		XSNZu/mZkkePHYFJoQUnEaXAdfo=
+		ginCdIe8EF/Aoqvp2aEKthRxsyw=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -22,27 +22,47 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		555Ubp8gqH04jmMbp/8yPWEfGdY=
+		oBR8nahKTDgqOGLEuEzYgtYWUGQ=
 		</data>
 		<key>flutter_assets/assets/RADIO.png</key>
 		<data>
 		b+7QW29dHl9ge1aBufkzIWLdac0=
 		</data>
-		<key>flutter_assets/assets/images/appicon.png</key>
+		<key>flutter_assets/assets/images/album_cover/album1.jpeg</key>
 		<data>
-		o/Cv+BlnxLK8T78kRT+NXEm02U8=
+		+GXbTM9WKq4mf7BiIBPAgiMgl3c=
 		</data>
-		<key>flutter_assets/assets/images/appicon1.png</key>
+		<key>flutter_assets/assets/images/album_cover/album2.jpeg</key>
 		<data>
-		o/Cv+BlnxLK8T78kRT+NXEm02U8=
+		j2/PPt/qF6iLPrzkj0x2JgCEm64=
 		</data>
-		<key>flutter_assets/assets/images/chatgpt-icon.png</key>
+		<key>flutter_assets/assets/images/album_cover/album3.png</key>
 		<data>
-		64yxaHQBNldabX4+/mJiRFfrwAA=
+		JxTKqZAZ+XJICFaIJlp5PDWSNhU=
 		</data>
-		<key>flutter_assets/assets/images/google-icon.png</key>
+		<key>flutter_assets/assets/images/album_cover/album4.jpeg</key>
 		<data>
-		gREwGwd9FzE763fC9WX/VE1rPAM=
+		RrXDxz5Q8cNpDXlyMqdcZHVbwVs=
+		</data>
+		<key>flutter_assets/assets/images/album_cover/dailyMix1.png</key>
+		<data>
+		/927D1/EJpEnQ72feHqfpdK1BrM=
+		</data>
+		<key>flutter_assets/assets/images/album_cover/dailyMix2.jpeg</key>
+		<data>
+		021jNP/0Zi9AHWRoR64G5gZ4a8s=
+		</data>
+		<key>flutter_assets/assets/images/album_cover/dailyMix3.jpeg</key>
+		<data>
+		7uFQmxRabFd9iwMMOp1elR5Z//w=
+		</data>
+		<key>flutter_assets/assets/images/album_cover/dailyMix4.jpeg</key>
+		<data>
+		/tv8sPzjO6nxeODnRy2M5tEDPek=
+		</data>
+		<key>flutter_assets/assets/images/album_cover/dailyMix5.jpeg</key>
+		<data>
+		PYA/e5b7sYYB79uHozd0Rs7SWoI=
 		</data>
 		<key>flutter_assets/assets/images/icon/appicon.png</key>
 		<data>
@@ -59,10 +79,6 @@
 		<key>flutter_assets/assets/images/icon/user.png</key>
 		<data>
 		K1VVmypEOFAlMdOiua/oWdC3RT8=
-		</data>
-		<key>flutter_assets/assets/images/user-icon.png</key>
-		<data>
-		TRJEyM0j+TwanUD+nE34dWr+zd8=
 		</data>
 		<key>flutter_assets/assets/orange-music-wave-doodle.gif</key>
 		<data>
@@ -90,7 +106,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		rP6QzJIJNtH5SpiRC/hhZl7dvhQ=
+		dzpXyB7N8Yk6rjLSBthNZo6E/1o=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -127,14 +143,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fvUcG4Vu7IhBKparCiIriQXgZ3LPjzuCKfCIsI7+Oik=
+			n8ZbH91Zye9lLOXw4V2h/mWFMLzNOq2P0ol1FnKYajQ=
 			</data>
 		</dict>
 		<key>flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			om5+Ec5h4VhDR2QZNTqhnIG946zKg+JceBM0eiAzdHM=
+			VLEJfY0+k2ttjcNur8G9PzsrILfiGo/2ik5hayKV3o8=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -148,7 +164,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			IeOXsKo+lg/WVXZuTU4i6tXoUnBZoLuR3tBgkxTM8eo=
+			ZgmXdd+3U8aZTIDVFhe+G5GYjvW9niOdZzMoeCV8pZw=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/RADIO.png</key>
@@ -158,32 +174,67 @@
 			0P+b4l39txKgEtC3BoidToaVSBPNvj9WwQJQZXldqLo=
 			</data>
 		</dict>
-		<key>flutter_assets/assets/images/appicon.png</key>
+		<key>flutter_assets/assets/images/album_cover/album1.jpeg</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			o84Vcn4AOJG4QVzc9MAvZwk1P1d0drVaJQRnkLkORV0=
+			+v4/cROpDCrlsLtXAa7p3OUGstNARaLU2U8hecznz0U=
 			</data>
 		</dict>
-		<key>flutter_assets/assets/images/appicon1.png</key>
+		<key>flutter_assets/assets/images/album_cover/album2.jpeg</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			o84Vcn4AOJG4QVzc9MAvZwk1P1d0drVaJQRnkLkORV0=
+			1pYz+lEbtJkiBbAV4Fxrx+gs+JKKzmogFPB0VqrWENs=
 			</data>
 		</dict>
-		<key>flutter_assets/assets/images/chatgpt-icon.png</key>
+		<key>flutter_assets/assets/images/album_cover/album3.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4vuk7fo2PPUSICDAAWmn5Dmh6hE/1BhELZbM5Q2fbSo=
+			3vKsTUy1s6UPBn2IeBmL7HXpBnparpVtOKEmjRtwXw8=
 			</data>
 		</dict>
-		<key>flutter_assets/assets/images/google-icon.png</key>
+		<key>flutter_assets/assets/images/album_cover/album4.jpeg</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UA3hd7dqpth0ZCeagPEtA8Qfj81BDxM4Nb/WvbTMfaQ=
+			onj2Y38VpmGhjKL79BNs2X+1ViqRqDLbYEPPCdbG6pA=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/album_cover/dailyMix1.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			JQ0UCVrua7ZDXO1Hqd+D1XzzQYZwH+E0N8KEQVg9KgU=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/album_cover/dailyMix2.jpeg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			YD2cxGRc5IQdqk3BUPS3T/o0VW0sbRpVS+V9DYdFkNw=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/album_cover/dailyMix3.jpeg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			yx5CmKHrdV4lvtrSAgkO+nlxlwuKu2Q3jer8Qeq1mNk=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/album_cover/dailyMix4.jpeg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			C9DQJ9GIRVghBkmSO87ume5oJEpuc0XGyGq2m6g8rDU=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/album_cover/dailyMix5.jpeg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			XAQ33I2XDyEMggX3gNPQKSu3hA/sovqKfn3a/XaSdrU=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/images/icon/appicon.png</key>
@@ -212,13 +263,6 @@
 			<key>hash2</key>
 			<data>
 			S5fzDhl3v8s9Std61zzVvKXX//0NeJ4IXzofGAY5G1o=
-			</data>
-		</dict>
-		<key>flutter_assets/assets/images/user-icon.png</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			cW6ojrhfnHRLeIsoWlhQSp2Z+Bj0W/n6vIN9P5GOjH0=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/orange-music-wave-doodle.gif</key>
@@ -267,7 +311,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			tN/eNZMwLZAT46VQJd8PJflnMGXoK8hiQR3vXOslVd4=
+			QV0RBbgx5uZ9ejYx4UvlvaVsrNYh6p6reRRI8TdNe7Y=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

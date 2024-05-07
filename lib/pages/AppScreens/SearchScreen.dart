@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 import 'package:harmony/model/song.dart';
+import 'package:harmony/model/video/video.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../constants/functions.dart';
-import '../../model/API-Model.dart';
 import '../../components/videoPlayer.dart';
 import '../../components/inputFields.dart';
 import '../../api_key.dart';
@@ -29,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
   bool showResults = false;
   bool fromHome = false;
   List<Songs> recentSearches = [];
-  List<Video> videos = [];
+  List<Songs> videos = [];
 
   @override
   void initState() {
@@ -85,8 +85,8 @@ class _SearchScreenState extends State<SearchScreen> {
     var response = await http.get(Uri.parse(url));
     var decodedJson = jsonDecode(response.body);
     setState(() {
-      videos = decodedJson['items'].map<Video>((item) {
-        return Video.fromJson(item);
+      videos = decodedJson['items'].map<Songs>((item) {
+        return Songs.fromJson(item);
       }).toList();
     });
   }

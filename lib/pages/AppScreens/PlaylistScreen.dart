@@ -1,18 +1,18 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harmony/components/songPlayer.dart';
 import 'package:harmony/model/song.dart';
 import '../../components/buttons.dart';
 import '../../components/videoPlayer.dart';
 import '../../constants/textStyles.dart';
-import '../../model/API-Model.dart';
-
 
 class PlaylistScreen extends StatefulWidget {
   static String id = "PlaylistScreen";
   bool play = false;
 
-  PlaylistScreen({super.key, 
+  PlaylistScreen({
+    super.key,
     required this.title,
     required this.songs,
   });
@@ -30,13 +30,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     // TODO: implement initState
     super.initState();
     Future<Null>.delayed(Duration.zero, () {
-      if(widget.songs.isEmpty){
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Internal Error, Server might be down"))
-        );
+      if (widget.songs.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Internal Error, Server might be down")));
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -45,7 +45,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: false,
-        toolbarHeight: height*0.165,
+        toolbarHeight: height * 0.165,
         elevation: 0,
         flexibleSpace: Padding(
           padding: EdgeInsets.fromLTRB(20, height * 0.04, 20, 0),
@@ -69,12 +69,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               const SizedBox(
                 height: 20,
               ),
-
             ],
           ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2.0),
         child: ListView.builder(
@@ -83,13 +81,16 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           itemCount: widget.songs.length,
           itemBuilder: (context, index) {
             return ListTile(
-                focusNode: focusNode,
-              leading: Image.network(widget.songs[index].thumbnailUrl,),
-              subtitle: (widget.songs[index].channelTitle == "  ") ? null :
-              Text(
-                widget.songs[index].channelTitle,
-                style: kMusicInfoStyle,
+              focusNode: focusNode,
+              leading: Image.network(
+                widget.songs[index].thumbnailUrl,
               ),
+              subtitle: (widget.songs[index].channelTitle == "  ")
+                  ? null
+                  : Text(
+                      widget.songs[index].channelTitle,
+                      style: kMusicInfoStyle,
+                    ),
               title: Text(
                 widget.songs[index].title,
                 style: kMusicTitleStyle,
@@ -105,14 +106,14 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               ListTile(
-                                leading: const Icon(Icons.play_arrow, color: Colors.white,),
+                                leading: const Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                ),
                                 title: Text(
                                   'Play',
                                   style: GoogleFonts.outfit(
-                                      textStyle: const TextStyle(
-                                        fontSize: 18
-                                      )
-                                  ),
+                                      textStyle: const TextStyle(fontSize: 18)),
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -122,7 +123,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(Icons.close,  color: Colors.white,),
+                                leading: const Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
                                 title: const Text('Remove'),
                                 onTap: () {
                                   setState(() {
@@ -136,25 +140,30 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           ),
                         );
                       });
-                  (widget.play) ? Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VideoPlayerScreen(
-                        videoId: widget.songs[index].id,
-                        thumbnailUrl: widget.songs[index].thumbnailUrl,
-                        title: widget.songs[index].title,
-                        channelTitle: widget.songs[index].channelTitle,
-                      ),
-                    ),
-                  ) : null;
+                  (widget.play)
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SongPlayerScreen(
+                              videoId: widget.songs[index].id,
+                              thumbnailUrl: widget.songs[index].thumbnailUrl,
+                              title: widget.songs[index].title,
+                              channelTitle: widget.songs[index].channelTitle,
+                            ),
+                          ),
+                        )
+                      : null;
                 },
-                child: const Icon(Icons.more_vert, color: Colors.grey,),
+                child: const Icon(
+                  Icons.more_vert,
+                  color: Colors.grey,
+                ),
               ),
               onTap: () => {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => VideoPlayerScreen(
+                    builder: (context) => SongPlayerScreen(
                       videoId: widget.songs[index].id,
                       thumbnailUrl: widget.songs[index].thumbnailUrl,
                       title: widget.songs[index].title,
@@ -167,8 +176,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           },
         ),
       ),
-
     );
   }
 }
-

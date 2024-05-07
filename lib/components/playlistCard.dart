@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import '../constants/textStyles.dart';
 
+
 class PlaylistCard extends StatelessWidget {
   const PlaylistCard({
     super.key,
     required this.imageUrl,
     required this.text,
+
   });
   final String imageUrl;
   final String text;
@@ -17,7 +19,7 @@ class PlaylistCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 8, 16, 8),
+          padding: const EdgeInsets.fromLTRB(0,8,16,8),
           child: SizedBox(
             height: 150,
             width: 150,
@@ -25,6 +27,7 @@ class PlaylistCard extends StatelessWidget {
               fit: BoxFit.fill,
               child: Image.asset(imageUrl),
             ),
+
           ),
         ),
         Text(
