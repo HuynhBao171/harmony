@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'dart:convert';
+import 'package:harmony/api_key.dart';
 import 'package:harmony/components/buttons.dart';
 import 'package:harmony/model/song.dart';
 import 'package:http/http.dart' as http;
@@ -30,11 +31,10 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
     return ModalProgressHUD(
       inAsyncCall: loader,
       child: Scaffold(
-
         appBar: AppBar(
           // backgroundColor: Theme.of(context).colorScheme.primary,
           automaticallyImplyLeading: false,
-          toolbarHeight: height*0.28,
+          toolbarHeight: height * 0.28,
           elevation: 0,
           flexibleSpace: Padding(
             padding: EdgeInsets.fromLTRB(20, height * 0.04, 20, 0),
@@ -60,33 +60,31 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                 ),
                 SearchInputField(
                   hintText: "What's going on in your life ?",
-                  onSubmitted: (query){
+                  onSubmitted: (query) {
                     query = query?.trimLeft();
-                    if(query != ""){
+                    if (query != "") {
                       setState(() {
                         loader = true;
                       });
                       postData(query!).then((results) {
-                        if(results.isNotEmpty){
+                        if (results.isNotEmpty) {
                           recommendations = [];
-                          for(var result in results){
-                            var json = jsonDecode(result);
+                          for (var result in results) {
                             setState(() {
                               loader = false;
-                              recommendations.add(Songs.fromJson(json));
+                              recommendations.add(result);
                             });
                           }
-                        }
-                        else {
+                        } else {
                           setState(() {
                             loader = false;
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Internal Error, Server might be down"))
-                            );
-                        });
+                                const SnackBar(
+                                    content: Text(
+                                        "Internal Error, Server might be down")));
+                          });
                         }
-                      }
-                      );
+                      });
                     }
                   },
                 ),
@@ -98,46 +96,53 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
         body: SafeArea(
           child: Container(
             // height: double.infinity,
-            child: (recommendations.isEmpty) ? null
+            child: (recommendations.isEmpty)
+                ? null
                 : ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: recommendations.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Image.network(recommendations[index].thumbnailUrl),
-                  subtitle: Text(
-                    recommendations[index].channelTitle,
-                    style: kMusicInfoStyle,
-                  ),
-                  title: Text(
-                    recommendations[index].title,
-                    style: kMusicTitleStyle,
-                  ),
-                  trailing: GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        recommendations.remove(recommendations[index]);
-                      });
-                    },
-                    child: const Icon(Icons.close_sharp, color: Colors.grey,),
-                  ),
-                  onTap: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VideoPlayerScreen(
-                          videoId: recommendations[index].id,
-                          thumbnailUrl: recommendations[index].thumbnailUrl,
-                          title: recommendations[index].title,
-                          channelTitle: recommendations[index].channelTitle,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: recommendations.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading:
+                            Image.network(recommendations[index].thumbnailUrl),
+                        subtitle: Text(
+                          recommendations[index].channelTitle,
+                          style: kMusicInfoStyle,
                         ),
-                      ),
-                    )
-                  },
-                );
-              },
-            ),
+                        title: Text(
+                          recommendations[index].title,
+                          style: kMusicTitleStyle,
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              recommendations.remove(recommendations[index]);
+                            });
+                          },
+                          child: const Icon(
+                            Icons.close_sharp,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VideoPlayerScreen(
+                                videoId: recommendations[index].id,
+                                thumbnailUrl:
+                                    recommendations[index].thumbnailUrl,
+                                title: recommendations[index].title,
+                                channelTitle:
+                                    recommendations[index].channelTitle,
+                              ),
+                            ),
+                          )
+                        },
+                      );
+                    },
+                  ),
           ),
         ),
 
@@ -165,24 +170,28 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
   }
 }
 
-
-
-Future<List<String>> postData(String inputText) async {
+Future<List<Songs>> postData(String query) async {
   try {
-    final url = Uri.parse('https://moodify-backend.onrender.com/api/predict');
-    Map<String, String> data = {'text': inputText};
-    String body = jsonEncode(data);
-    // Use `data` in request body if using Node.js server as backend
-    // Use `body` in request body if using FastAPI server as backend
-    final response =
-    await http.post(url, body: body).timeout(const Duration(seconds: 15));
-    Map<String, dynamic> temp = await json.decode(response.body);
-    // print(temp['data'].runtimeType);
-    List<String> songs = List<String>.from(temp['data'] as List);
-    // print(songs);
-    // return [];
+    var url = "https://www.googleapis.com/youtube/v3/search"
+        "?part=snippet"
+        "&maxResults=10"
+        "&q=$query"
+        "&type=video"
+        "&key=$apiKey";
+
+    var response = await http.get(Uri.parse(url));
+
+    var decodedJson = jsonDecode(response.body);
+
+    List<Songs> songs = (decodedJson['items'] as List).map((item) {
+      return Songs.fromJsonString(jsonEncode(item));
+    }).toList();
+
+    print('Songs: $songs');
+
     return songs;
   } catch (e) {
+    print('Error: $e');
     return [];
   }
 }
