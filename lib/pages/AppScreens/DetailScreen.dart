@@ -2,6 +2,7 @@ import 'package:deep_pick/deep_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harmony/constants/textStyles.dart';
+import 'package:harmony/constants/widgetExtensions.dart';
 import 'package:harmony/main.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -26,68 +27,49 @@ class _DetailScreenState extends State<DetailScreen> {
       appBar: AppBar(
         title: Text('Detail Screen'),
       ),
-      body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Title: ', style: kMusicTitleStyle.copyWith(fontSize: 20)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${pick(videoData, 'snippet', 'title').asStringOrNull()}',
-                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
-              ),
-              Text('Description: ',
-                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${pick(videoData, 'snippet', 'description').asStringOrNull()}',
-                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
-              ),
-              Text('Published At: ',
-                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${pick(videoData, 'snippet', 'publishedAt').asStringOrNull()}',
-                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
-              ),
-              Text('Region Code: ',
-                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${pick(decodedJson, 'regionCode').asStringOrNull()}',
-                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
-              ),
-              Text('Live Broadcast Content: ',
-                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${pick(videoData, 'snippet', 'liveBroadcastContent').asStringOrNull()}',
-                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
-              ),
-              Text('Test Nullable: ',
-                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${pick(videoData, 'snippet', 'nullable').asStringOrNull()}',
-                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
-              ),
-              Text('Results Per Page: ',
-                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${pick(decodedJson, 'pageInfo', 'resultsPerPage').asStringOrNull()}',
-                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
-              ),
-            ],
-          )),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Title: ', style: kMusicTitleStyle.copyWith(fontSize: 20))
+              .padding(8),
+          Text('${pick(videoData, 'snippet', 'title').asStringOrNull()}',
+                  style: kMusicInfoStyle.copyWith(fontSize: 16))
+              .padding(8),
+          Text('Description: ', style: kMusicTitleStyle.copyWith(fontSize: 20))
+              .padding(8),
+          Text('${pick(videoData, 'snippet', 'description').asStringOrNull()}',
+                  style: kMusicInfoStyle.copyWith(fontSize: 16))
+              .padding(8),
+          Text('Published At: ', style: kMusicTitleStyle.copyWith(fontSize: 20))
+              .padding(8),
+          Text('${pick(videoData, 'snippet', 'publishedAt').asStringOrNull()}',
+                  style: kMusicInfoStyle.copyWith(fontSize: 16))
+              .padding(8),
+          Text('Region Code: ', style: kMusicTitleStyle.copyWith(fontSize: 20))
+              .padding(8),
+          Text('${pick(decodedJson, 'regionCode').asStringOrNull()}',
+                  style: kMusicInfoStyle.copyWith(fontSize: 16))
+              .padding(8),
+          Text('Live Broadcast Content: ',
+                  style: kMusicTitleStyle.copyWith(fontSize: 20))
+              .padding(8),
+          Text('${pick(videoData, 'snippet', 'liveBroadcastContent').asStringOrNull()}',
+                  style: kMusicInfoStyle.copyWith(fontSize: 16))
+              .padding(8),
+          Text('Test Nullable: ',
+                  style: kMusicTitleStyle.copyWith(fontSize: 20))
+              .padding(8),
+          Text('${pick(videoData, 'snippet', 'nullable').asStringOrNull()}',
+                  style: kMusicInfoStyle.copyWith(fontSize: 16))
+              .padding(8),
+          Text('Results Per Page: ',
+                  style: kMusicTitleStyle.copyWith(fontSize: 20))
+              .padding(8),
+          Text('${pick(decodedJson, 'pageInfo', 'resultsPerPage').asStringOrNull()}',
+                  style: kMusicInfoStyle.copyWith(fontSize: 16))
+              .padding(8),
+        ],
+      ),
     );
   }
 }

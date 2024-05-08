@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:harmony/constants/widgetExtensions.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../model/RadioModel.dart';
@@ -164,21 +165,18 @@ class _RadioHSState extends State<RadioHS> {
                       child:
                           Image.asset("assets/orange-music-wave-doodle.gif")),
                 ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  _isPlaying ? CupertinoIcons.stop_circle : null,
-                  color: Colors.orange,
-                  size: 50.0,
-                ).onInkTap(() {
-                  if (_isPlaying) {
-                    audioPlayer.stop();
-                  } else {
-                    audioPlayer.play(UrlSource(_selectedradio.url));
-                    playMusic(_selectedradio.url);
-                  }
-                }),
-              ),
+              Icon(
+                _isPlaying ? CupertinoIcons.stop_circle : null,
+                color: Colors.orange,
+                size: 50.0,
+              ).onInkTap(() {
+                if (_isPlaying) {
+                  audioPlayer.stop();
+                } else {
+                  audioPlayer.play(UrlSource(_selectedradio.url));
+                  playMusic(_selectedradio.url);
+                }
+              }).padding(8),
             ].vStack(),
           ),
         ],

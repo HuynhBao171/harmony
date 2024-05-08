@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:harmony/api_key.dart';
+import 'package:harmony/constants/widgetExtensions.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/model/song.dart';
 import 'package:harmony/pages/AppScreens/Dashboard.dart';
@@ -173,77 +174,74 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 1.0, // set the border width
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const Visibility(
-                              // maintainSize: true,
-                              // maintainAnimation: true,
-                              // maintainState: true,
-                              visible: false,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Icon(
-                                    Icons.more_horiz,
-                                    size: 30,
-                                  )
-                                ],
-                              ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Visibility(
+                            // maintainSize: true,
+                            // maintainAnimation: true,
+                            // maintainState: true,
+                            visible: false,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(
+                                  Icons.more_horiz,
+                                  size: 30,
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    "Get recommendations based on your mood",
-                                    style: GoogleFonts.outfit(
-                                      textStyle: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                      ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  "Get recommendations based on your mood",
+                                  style: GoogleFonts.outfit(
+                                    textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Tell us how are you feeling?",
-                                    style: GoogleFonts.outfit(
-                                      textStyle: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[400],
-                                      ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Tell us how are you feeling?",
+                                  style: GoogleFonts.outfit(
+                                    textStyle: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.grey[400],
                                     ),
                                   ),
-                                  const Visibility(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Icon(
-                                          Icons.navigate_next,
-                                          size: 30,
-                                        )
-                                      ],
-                                    ),
+                                ),
+                                const Visibility(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.navigate_next,
+                                        size: 30,
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        ],
+                      ).padding(8),
                     ),
                   ),
                   const SizedBox(

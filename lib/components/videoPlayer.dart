@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harmony/components/buttons.dart';
+import 'package:harmony/constants/functions.dart';
 import 'package:harmony/pages/AppScreens/DetailScreen.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../constants/functions.dart';
 import '../constants/textStyles.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -189,11 +189,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                formatDuration(videoStart),
+                                videoStart.formatDuration(),
                                 style: kMusicTimerStyle,
                               ),
                               Text(
-                                formatDuration(videoEnd),
+                                videoEnd.formatDuration(),
                                 style: kMusicTimerStyle,
                               ),
                             ],

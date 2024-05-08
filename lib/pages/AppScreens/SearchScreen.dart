@@ -182,7 +182,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       height: 120,
                     ),
                     title: Text(
-                      trimTitle(videos[index].title),
+                      videos[index].title.trimTitle(),
                       style: kMusicTitleStyle,
                     ),
                     subtitle: Text(
@@ -199,7 +199,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Songs(
                           id: videos[index].id,
                           channelTitle: videos[index].channelTitle,
-                          title: trimTitle(videos[index].title),
+                          title: videos[index].title.trimTitle(),
                           thumbnailUrl: videos[index].thumbnailUrl,
                         ),
                       ),
@@ -209,7 +209,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           builder: (context) => VideoPlayerScreen(
                             videoId: videos[index].id,
                             thumbnailUrl: videos[index].thumbnailUrl,
-                            title: trimTitle(videos[index].title),
+                            title: videos[index].title.trimTitle(),
                             channelTitle: videos[index].channelTitle,
                           ),
                         ),
