@@ -62,6 +62,30 @@ class _DetailScreenState extends State<DetailScreen> {
                     '${pick(decodedJson, 'regionCode').asStringOrNull()}',
                     style: kMusicInfoStyle.copyWith(fontSize: 16)),
               ),
+              Text('Live Broadcast Content: ',
+                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    '${pick(videoData, 'snippet', 'liveBroadcastContent').asStringOrNull()}',
+                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
+              ),
+              Text('Test Nullable: ',
+                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    '${pick(videoData, 'snippet', 'nullable').asStringOrNull()}',
+                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
+              ),
+              Text('Results Per Page: ',
+                  style: kMusicTitleStyle.copyWith(fontSize: 20)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    '${pick(decodedJson, 'pageInfo', 'resultsPerPage').asStringOrNull()}',
+                    style: kMusicInfoStyle.copyWith(fontSize: 16)),
+              ),
             ],
           )),
     );

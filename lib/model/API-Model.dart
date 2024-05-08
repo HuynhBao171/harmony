@@ -1,32 +1,30 @@
+// class Video {
+//   final int id;
+//   final String title;
+//   final String thumbnailUrl;
+//   final String channelTitle;
 
-class Video {
-  final String id;
-  final String title;
-  final String thumbnailUrl;
-  final String channelTitle;
+//   Video(
+//       {required this.id,
+//       required this.title,
+//       required this.thumbnailUrl,
+//       required this.channelTitle});
 
-  Video(
-      {required this.id,
-      required this.title,
-      required this.thumbnailUrl,
-      required this.channelTitle});
+//   Video.fromJson(Map<String, dynamic> json)
+//       : this(
+//           id: json['id']['videoId'],
+//           title: json['snippet']['title'],
+//           thumbnailUrl: json['snippet']['thumbnails']['high']['url'],
+//           channelTitle: json['snippet']['channelTitle'],
+//         );
 
-  factory Video.fromJson(Map<String, dynamic> json) {
-    return Video(
-      id: json['id']['videoId'],
-      title: json['snippet']['title'],
-      thumbnailUrl: json['snippet']['thumbnails']['high']['url'],
-      channelTitle: json['snippet']['channelTitle'],
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        'id/videoId': id,
-        'snippet/title': title,
-        'snippet/thumbnails/high/url': thumbnailUrl,
-        'snippet/channelTitle': channelTitle,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         'id/videoId': id,
+//         'snippet/title': title,
+//         'snippet/thumbnails/high/url': thumbnailUrl,
+//         'snippet/channelTitle': channelTitle,
+//       };
+// }
 
 // class Songs {
 //   final String id;
@@ -40,20 +38,20 @@ class Video {
 //       required this.title,
 //       required this.thumbnailUrl});
 
-  // factory Songs.fromJson(Map<String, dynamic> json) {
-  //   return Songs(
-  //     id: json['id']['videoId'],
-  //     title: json['snippet']['title'],
-  //     thumbnailUrl: json['snippet']['thumbnails']['high']['url'],
-  //     channelTitle: json['snippet']['channelTitle'],
-  //   );
-  // }
-  // Map<String, dynamic> toJson() => {
-  //       'id/videoId': id,
-  //       'snippet/title': title,
-  //       'snippet/thumbnails/high/url': thumbnailUrl,
-  //       'snippet/channelTitle': channelTitle,
-  //     };
+// factory Songs.fromJson(Map<String, dynamic> json) {
+//   return Songs(
+//     id: json['id']['videoId'],
+//     title: json['snippet']['title'],
+//     thumbnailUrl: json['snippet']['thumbnails']['high']['url'],
+//     channelTitle: json['snippet']['channelTitle'],
+//   );
+// }
+// Map<String, dynamic> toJson() => {
+//       'id/videoId': id,
+//       'snippet/title': title,
+//       'snippet/thumbnails/high/url': thumbnailUrl,
+//       'snippet/channelTitle': channelTitle,
+//     };
 // }
 
 class AlbumCards {
@@ -95,7 +93,7 @@ var dailyMix = [
 var albums = [
   AlbumCards(
       id: "1",
-      title: "Desi Hip-Hop",
+      title: "Viet Hip-Hop",
       iconUrl: 'assets/images/album_cover/album1.jpeg'),
   AlbumCards(
       id: "2",
@@ -107,6 +105,6 @@ var albums = [
       iconUrl: 'assets/images/album_cover/album3.png'),
   AlbumCards(
       id: "4",
-      title: "Classical Hindi Songs",
+      title: "Classical Viet Nam Songs",
       iconUrl: 'assets/images/album_cover/album4.jpeg'),
 ];
