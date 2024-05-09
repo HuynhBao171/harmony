@@ -5,9 +5,9 @@ import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/utils/extensions/widgetExtensions.dart';
 import 'package:harmony/model/song.dart';
-import 'package:harmony/pages/AppScreens/Dashboard.dart';
-import 'package:harmony/pages/AppScreens/PlaylistScreen.dart';
-import 'package:harmony/pages/AppScreens/RecommendationScreen.dart';
+import 'package:harmony/screens/AppScreens/Dashboard.dart';
+import 'package:harmony/screens/AppScreens/PlaylistScreen.dart';
+import 'package:harmony/screens/AppScreens/RecommendationScreen.dart';
 import 'package:harmony/model/API-Model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController myController = TextEditingController();
+  final ApiClient apiClient = getIt<ApiClient>();
   bool isactive1 = true;
   bool isactive2 = false;
   String username = "User";

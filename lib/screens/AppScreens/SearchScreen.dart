@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, file_names
 
 import 'dart:convert';
+import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/model/song.dart';
 import 'package:harmony/utils/extensions/dartExtensions.dart';
@@ -26,6 +27,8 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController myController = TextEditingController();
+  final ApiClient apiClient = getIt<ApiClient>();
+  final SharedPreferences prefs = getIt<SharedPreferences>();
   bool showResults = false;
   bool fromHome = false;
   List<Songs> recentSearches = [];
@@ -56,11 +59,11 @@ class _SearchScreenState extends State<SearchScreen> {
     for (var result in results) {
       data.add(jsonEncode(result.toJson()));
     }
-    prefs?.setStringList('searchResults', data);
+    prefs.setStringList('searchResults', data);
   }
 
   Future<List<Songs>> getSearchResults() async {
-    List<String> data = prefs?.getStringList('searchResults') ?? [];
+    List<String> data = prefs.getStringList('searchResults') ?? [];
     List<Songs> results = [];
     for (var item in data) {
       results.add(Songs.fromJson(jsonDecode(item)));
@@ -73,11 +76,11 @@ class _SearchScreenState extends State<SearchScreen> {
     for (var search in recentSearches) {
       data.add(jsonEncode(search));
     }
-    prefs?.setStringList('recentSearches', data);
+    prefs.setStringList('recentSearches', data);
   }
 
   Future<void> getRecentSearches() async {
-    List<String>? searches = prefs?.getStringList('recentSearches');
+    List<String>? searches = prefs.getStringList('recentSearches');
     if (searches != null) {
       for (String search in searches) {
         // print(search);

@@ -2,8 +2,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:harmony/main.dart';
 
 class NetworkUtils {
-  // static final logger = Logger();
-
   static Future<bool> isConnected() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
 

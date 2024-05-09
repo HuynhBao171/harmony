@@ -4,9 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:harmony/widgets/customText.dart';
-import 'package:harmony/pages/AssistantScreens/models/config/gemini_config.dart';
-import 'package:harmony/pages/AssistantScreens/models/config/gemini_safety_settings.dart';
-import 'package:harmony/pages/AssistantScreens/models/gemini/gemini.dart';
+import 'package:harmony/screens/AssistantScreens/models/config/gemini_config.dart';
+import 'package:harmony/screens/AssistantScreens/models/config/gemini_safety_settings.dart';
+import 'package:harmony/screens/AssistantScreens/models/gemini/gemini.dart';
 import 'package:image_picker/image_picker.dart';
 
 const apiKey = "AIzaSyC2MRFUJgJEDJbyF6cyNqQxtVZrPnoBAWI";

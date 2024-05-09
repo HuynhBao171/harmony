@@ -398,6 +398,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "get_it",
+      "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/get_it-7.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "glob",
       "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/glob-2.1.2",
       "packageUri": "lib/",
@@ -938,7 +944,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-05-09T06:19:20.698991Z",
+  "generated": "2024-05-09T10:01:33.816200Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }

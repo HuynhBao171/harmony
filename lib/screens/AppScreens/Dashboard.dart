@@ -3,7 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:harmony/pages/OnboardingScreen.dart';
+import 'package:harmony/screens/OnboardingScreen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -99,7 +99,7 @@ class _DashboardState extends State<Dashboard> {
                         _auth.signOut();
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs?.setBool("loggedIn", false);
+                        prefs.setBool("loggedIn", false);
                         Navigator.pushNamedAndRemoveUntil(
                             context,
                             OnboardingScreen.id,

@@ -3,8 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:harmony/pages/AuthenticationScreens/AuthenticationScreen.dart';
-import 'package:harmony/pages/BottomNavbar.dart';
+import 'package:harmony/screens/AuthenticationScreens/AuthenticationScreen.dart';
+import 'package:harmony/screens/BottomNavbar.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/buttons.dart';
@@ -102,8 +102,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             await _auth.signInWithCredential(credential);
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs?.setBool("loggedIn", true);
-                        prefs?.setString(
+                        prefs.setBool("loggedIn", true);
+                        prefs.setString(
                             'currentUser',
                             value.displayName?.substring(
                                     0, value.displayName?.indexOf(" ")) ??

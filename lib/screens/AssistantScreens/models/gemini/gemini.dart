@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:harmony/pages/AssistantScreens/models/config/gemini_config.dart';
-import 'package:harmony/pages/AssistantScreens/models/config/gemini_safety_settings.dart';
-import 'package:harmony/pages/AssistantScreens/models/gemini/gemini_reponse.dart';
-import 'package:harmony/pages/AssistantScreens/repository/apis.dart';
+import 'package:harmony/screens/AssistantScreens/models/config/gemini_config.dart';
+import 'package:harmony/screens/AssistantScreens/models/config/gemini_safety_settings.dart';
+import 'package:harmony/screens/AssistantScreens/models/gemini/gemini_reponse.dart';
+import 'package:harmony/screens/AssistantScreens/repository/apis.dart';
 
 /// Google Gemini Main Class.
 class GoogleGemini {

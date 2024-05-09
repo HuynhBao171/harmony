@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, file_names
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:harmony/pages/BottomNavbar.dart';
-import 'package:harmony/pages/OnboardingScreen.dart';
+import 'package:harmony/screens/BottomNavbar.dart';
+import 'package:harmony/screens/OnboardingScreen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/buttons.dart';
@@ -147,11 +147,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                   : null;
                               var name = user.displayName;
                               int? index = name?.indexOf(" ");
-                              if (index != -1)
+                              if (index != -1) {
                                 name = name?.substring(0, name.indexOf(" "));
+                              }
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              prefs?.setBool("loggedIn", true);
+                              prefs.setBool("loggedIn", true);
                               setState(() {
                                 loader = false;
                               });

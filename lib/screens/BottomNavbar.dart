@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:harmony/pages/AppScreens/SearchScreen.dart';
-import 'package:harmony/pages/AssistantScreens/assistant_page.dart';
+import 'package:harmony/screens/AppScreens/SearchScreen.dart';
+import 'package:harmony/screens/AssistantScreens/assistant_page.dart';
 
 import 'AppScreens/HomeScreen.dart';
 import 'AppScreens/RadioScreen.dart';
