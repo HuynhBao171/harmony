@@ -5,10 +5,10 @@ import 'package:harmony/pages/BottomNavbar.dart';
 import 'package:harmony/pages/OnboardingScreen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../components/buttons.dart';
-import '../../constants/textStyles.dart';
+import '../../widgets/buttons.dart';
+import '../../utils/textStyles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../components/inputFields.dart';
+import '../../widgets/inputFields.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({

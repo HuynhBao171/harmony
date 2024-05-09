@@ -7,8 +7,8 @@ import 'package:harmony/pages/AuthenticationScreens/AuthenticationScreen.dart';
 import 'package:harmony/pages/BottomNavbar.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../components/buttons.dart';
-import '../constants/textStyles.dart';
+import '../widgets/buttons.dart';
+import '../utils/textStyles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

@@ -1,15 +1,19 @@
 // ignore_for_file: must_be_immutable, file_names
 
 import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:harmony/core/api_client.dart';
+import 'package:harmony/main.dart';
 import 'package:harmony/model/song.dart';
-import 'package:harmony/model/video/video.dart';
-import 'package:http/http.dart' as http;
+import 'package:harmony/utils/extensions/dartExtensions.dart';
+import 'package:harmony/utils/network_utils.dart';
+import 'package:harmony/utils/textStyles.dart';
+import 'package:harmony/widgets/inputFields.dart';
+import 'package:harmony/widgets/videoPlayer.dart';
 import 'package:flutter/material.dart';
-import '../../constants/functions.dart';
-import '../../components/videoPlayer.dart';
-import '../../components/inputFields.dart';
+import 'package:logging/logging.dart';
+
 import '../../api_key.dart';
-import '../../constants/textStyles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -25,11 +29,12 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  ApiClient apiClient = ApiClient();
   TextEditingController myController = TextEditingController();
   bool showResults = false;
   bool fromHome = false;
   List<Songs> recentSearches = [];
-  List<Songs> videos = [];
+  List<Songs> searchResults = [];
 
   @override
   void initState() {
@@ -49,6 +54,25 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() async {
     saveRecentSearches();
     super.dispose();
+  }
+
+  Future<void> saveSearchResults(List<Songs> results) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> data = [];
+    for (var result in results) {
+      data.add(jsonEncode(result.toJson()));
+    }
+    prefs.setStringList('searchResults', data);
+  }
+
+  Future<List<Songs>> getSearchResults() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> data = prefs.getStringList('searchResults') ?? [];
+    List<Songs> results = [];
+    for (var item in data) {
+      results.add(Songs.fromJson(jsonDecode(item)));
+    }
+    return results;
   }
 
   Future<void> saveRecentSearches() async {
@@ -74,21 +98,27 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  searchYoutube(String query) async {
-    var url = "https://www.googleapis.com/youtube/v3/search"
-        "?part=snippet"
-        "&maxResults=7"
-        "&q=$query"
-        "&type=video"
-        "&key=$apiKey";
-
-    var response = await http.get(Uri.parse(url));
-    var decodedJson = jsonDecode(response.body);
-    setState(() {
-      videos = decodedJson['items'].map<Songs>((item) {
-        return Songs.fromJson(item);
-      }).toList();
-    });
+  void searchYoutube(String query) async {
+    logger.i('Searching for $query');
+    if (await NetworkUtils.isConnected()) {
+      logger.i('Connected to the internet');
+      List<Songs> results = await apiClient.searchYoutube(query);
+      saveSearchResults(results);
+      setState(() {
+        searchResults = results;
+      });
+    } else {
+      logger.i('Not connected to the internet');
+      List<Songs> results = await getSearchResults();
+      setState(() {
+        searchResults = results;
+      });
+    }
+    // List<Songs> results = await apiClient.searchYoutube(query);
+    //   saveSearchResults(results);
+    //   setState(() {
+    //     searchResults = results;
+    //   });
   }
 
   @override
@@ -174,19 +204,19 @@ class _SearchScreenState extends State<SearchScreen> {
             ? ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: videos.length,
+                itemCount: searchResults.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: Image.network(
-                      videos[index].thumbnailUrl,
+                      searchResults[index].thumbnailUrl,
                       height: 120,
                     ),
                     title: Text(
-                      videos[index].title.trimTitle(),
+                      searchResults[index].title.trimTitle(),
                       style: kMusicTitleStyle,
                     ),
                     subtitle: Text(
-                      videos[index].channelTitle,
+                      searchResults[index].channelTitle,
                       style: kMusicInfoStyle,
                     ),
                     trailing: const Icon(
@@ -197,20 +227,20 @@ class _SearchScreenState extends State<SearchScreen> {
                       recentSearches.insert(
                         0,
                         Songs(
-                          id: videos[index].id,
-                          channelTitle: videos[index].channelTitle,
-                          title: videos[index].title.trimTitle(),
-                          thumbnailUrl: videos[index].thumbnailUrl,
+                          id: searchResults[index].id,
+                          channelTitle: searchResults[index].channelTitle,
+                          title: searchResults[index].title.trimTitle(),
+                          thumbnailUrl: searchResults[index].thumbnailUrl,
                         ),
                       ),
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => VideoPlayerScreen(
-                            videoId: videos[index].id,
-                            thumbnailUrl: videos[index].thumbnailUrl,
-                            title: videos[index].title.trimTitle(),
-                            channelTitle: videos[index].channelTitle,
+                            videoId: searchResults[index].id,
+                            thumbnailUrl: searchResults[index].thumbnailUrl,
+                            title: searchResults[index].title.trimTitle(),
+                            channelTitle: searchResults[index].channelTitle,
                           ),
                         ),
                       )

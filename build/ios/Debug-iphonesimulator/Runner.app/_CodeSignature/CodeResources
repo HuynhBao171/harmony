@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		7TYToyeKo5eahGes/7hPFxUBenA=
+		pcdKOjzQ5wVF6fyMQNKy33MBXlY=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		oBEXAHlaEO8AuNFIQ4wwnbcWZQI=
+		TpA88UwdzPpmE05fPVV7Dqf5JSc=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/NOTICES.Z</key>
 		<data>
-		zgWE5ec2jxXj5DOSC3iWsCt+eJI=
+		arUw0c4QrOJRdtFET77N07CqgEA=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/assets/RADIO.png</key>
 		<data>
@@ -154,7 +154,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		0Y2QsuqEY+m2vDAZhsIyVuiJiD4=
+		xfAqPIdxo1P0XprK0lnyNpAMJXk=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -866,6 +866,26 @@
 		<data>
 		H76CYTYcrqu5sUnOQmDdgkbumEU=
 		</data>
+		<key>Frameworks/connectivity_plus.framework/Info.plist</key>
+		<data>
+		CLjQZW+FtX1xQqCdQJTe7MA6w3I=
+		</data>
+		<key>Frameworks/connectivity_plus.framework/_CodeSignature/CodeResources</key>
+		<data>
+		R40ujCvP9DXGH4Dsr2HEibkXKro=
+		</data>
+		<key>Frameworks/connectivity_plus.framework/connectivity_plus</key>
+		<data>
+		Sbfr7Gahx0qW6dQV8ApqTGR3YRA=
+		</data>
+		<key>Frameworks/connectivity_plus.framework/connectivity_plus_privacy.bundle/Info.plist</key>
+		<data>
+		Dcxvip/G8rDRnTFcAnYrKl2ZpaI=
+		</data>
+		<key>Frameworks/connectivity_plus.framework/connectivity_plus_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		/LX0ZlwxwIAIhjZaDB8EiH5KpXA=
+		</data>
 		<key>Frameworks/flutter_inappwebview_ios.framework/Info.plist</key>
 		<data>
 		1wq8Yi1DNbSrby2zNNnfgn9mM8w=
@@ -1047,7 +1067,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Nc0uFKCwZr5YZ611phxCuGhVgo0psUdGu2LmTdAThqk=
+			sFftilDGoOUC4qh0tFIjHAMF6hkg96Z/vl7NL5QXb3o=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -1061,7 +1081,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			yrW6rj5ZQ1Ju25krH824LtJ08/rZrCiKqremO0OTGvo=
+			mzrs3sZ7To0NO2yAj0TNTCyov8CXO4jwDUTn46hZ0Kw=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -1089,7 +1109,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hoYoy4p2ipibEPqMv2Vg40a6ZFUUuJycQtz2p+H4+64=
+			JRQxmJBoE6O2MPYOcbKpZ0gubqnRMwqjwpLJhP1H86U=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/assets/RADIO.png</key>
@@ -1236,7 +1256,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fNDdrconZNwvlgZfCWIoPWuXGjy/vRaeEQmZrD+uaeE=
+			kq1QXvd1j4MMLme3ENmXGHKGQ9o/JVgINZU3JQhqp0Q=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -2223,6 +2243,41 @@
 			<key>hash2</key>
 			<data>
 			TzRQb2G86J/VR61tmW2tCxBBwmldXdQPWxH9WHLbm2g=
+			</data>
+		</dict>
+		<key>Frameworks/connectivity_plus.framework/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Bynn5CWY9EZcHtB7+dfg3wL0swBWmHReC2PglNv0xN8=
+			</data>
+		</dict>
+		<key>Frameworks/connectivity_plus.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			VdgDbI6GFsDnG8epTUrGqrNuC+p61cum+y0uuHRlZFw=
+			</data>
+		</dict>
+		<key>Frameworks/connectivity_plus.framework/connectivity_plus</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			8X7JlwUtIS/5gAvMwwj71lF3zMmONfzzNhjbX5/azZs=
+			</data>
+		</dict>
+		<key>Frameworks/connectivity_plus.framework/connectivity_plus_privacy.bundle/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			4jEkhk2/7hvFEqH8rTF7fpUXP8Qy47nqPUDu91v/Fio=
+			</data>
+		</dict>
+		<key>Frameworks/connectivity_plus.framework/connectivity_plus_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			bS2g2NkwIn1CjB2TY7CtbjoS4sm2jFzilxWKdBL8jDE=
 			</data>
 		</dict>
 		<key>Frameworks/flutter_inappwebview_ios.framework/Info.plist</key>

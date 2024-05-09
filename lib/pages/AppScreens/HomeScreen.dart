@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:harmony/api_key.dart';
-import 'package:harmony/constants/widgetExtensions.dart';
+import 'package:harmony/utils/extensions/widgetExtensions.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/model/song.dart';
 import 'package:harmony/pages/AppScreens/Dashboard.dart';
@@ -14,9 +14,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../../components/playlistCard.dart';
-import '../../constants/textStyles.dart';
-import '../../components/inputFields.dart';
+import '../../widgets/playlistCard.dart';
+import '../../utils/textStyles.dart';
+import '../../widgets/inputFields.dart';
 import '../BottomNavbar.dart';
 
 class HomeScreen extends StatefulWidget {

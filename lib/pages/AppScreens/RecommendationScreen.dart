@@ -2,15 +2,15 @@
 
 import 'dart:convert';
 import 'package:harmony/api_key.dart';
-import 'package:harmony/components/buttons.dart';
+import 'package:harmony/widgets/buttons.dart';
 import 'package:harmony/model/song.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../../components/inputFields.dart';
-import '../../components/videoPlayer.dart';
-import '../../constants/textStyles.dart';
+import '../../widgets/inputFields.dart';
+import '../../widgets/videoPlayer.dart';
+import '../../utils/textStyles.dart';
 
 class RecommendationScreen extends StatefulWidget {
   static String id = "RecommendationScreen";

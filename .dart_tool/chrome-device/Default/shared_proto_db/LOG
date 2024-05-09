@@ -1,3 +1,2 @@
-2024/05/07-16:42:38.805 f603 Reusing MANIFEST /private/var/folders/yf/zr8qz85s2tj_bg8g_xbc20j00000gp/T/flutter_tools.gQvrxN/flutter_tools_chrome_device.EILLrq/Default/shared_proto_db/MANIFEST-000001
-2024/05/07-16:42:38.806 f603 Recovering log #3
-2024/05/07-16:42:38.806 f603 Reusing old log /private/var/folders/yf/zr8qz85s2tj_bg8g_xbc20j00000gp/T/flutter_tools.gQvrxN/flutter_tools_chrome_device.EILLrq/Default/shared_proto_db/000003.log 
+2024/05/09-12:02:49.920 a507 Creating DB /private/var/folders/yf/zr8qz85s2tj_bg8g_xbc20j00000gp/T/flutter_tools.5RTcMz/flutter_tools_chrome_device.cyIXUt/Default/shared_proto_db since it was missing.
+2024/05/09-12:02:49.971 a507 Reusing MANIFEST /private/var/folders/yf/zr8qz85s2tj_bg8g_xbc20j00000gp/T/flutter_tools.5RTcMz/flutter_tools_chrome_device.cyIXUt/Default/shared_proto_db/MANIFEST-000001

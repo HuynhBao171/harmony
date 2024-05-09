@@ -1,11 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:harmony/components/songPlayer.dart';
+import 'package:harmony/widgets/songPlayer.dart';
 import 'package:harmony/model/song.dart';
-import '../../components/buttons.dart';
-import '../../components/videoPlayer.dart';
-import '../../constants/textStyles.dart';
+import '../../widgets/buttons.dart';
+import '../../utils/textStyles.dart';
 
 class PlaylistScreen extends StatefulWidget {
   static String id = "PlaylistScreen";

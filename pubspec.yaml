@@ -50,6 +50,10 @@ dependencies:
   freezed: ^2.5.2
   json_annotation: ^4.1.0
   deep_pick: ^1.0.0
+  dio: ^5.4.3+1
+  connectivity_plus: ^6.0.3
+  logging: ^1.2.0
+  logger: ^2.2.0
   
   
 

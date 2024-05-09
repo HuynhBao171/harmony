@@ -7,7 +7,7 @@ import 'package:harmony/pages/OnboardingScreen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../components/buttons.dart';
+import '../../widgets/buttons.dart';
 import '../BottomNavbar.dart';
 
 class Dashboard extends StatefulWidget {

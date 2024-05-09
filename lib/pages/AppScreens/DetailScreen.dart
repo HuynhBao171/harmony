@@ -1,8 +1,7 @@
 import 'package:deep_pick/deep_pick.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:harmony/constants/textStyles.dart';
-import 'package:harmony/constants/widgetExtensions.dart';
+import 'package:harmony/utils/textStyles.dart';
+import 'package:harmony/utils/extensions/widgetExtensions.dart';
 import 'package:harmony/main.dart';
 
 class DetailScreen extends StatefulWidget {

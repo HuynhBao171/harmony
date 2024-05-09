@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:harmony/components/customText.dart';
+import 'package:harmony/widgets/customText.dart';
 import 'package:harmony/pages/AssistantScreens/models/config/gemini_config.dart';
 import 'package:harmony/pages/AssistantScreens/models/config/gemini_safety_settings.dart';
 import 'package:harmony/pages/AssistantScreens/models/gemini/gemini.dart';
