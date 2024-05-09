@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import '../utils/textStyles.dart';
+import '../constants/text_styles.dart';
 
 
 class PlaylistCard extends StatelessWidget {

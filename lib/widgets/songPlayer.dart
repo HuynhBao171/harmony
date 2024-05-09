@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harmony/widgets/buttons.dart';
 import 'package:harmony/utils/extensions/dartExtensions.dart';
-import 'package:harmony/pages/AppScreens/DetailScreen.dart';
+import 'package:harmony/screens/AppScreens/DetailScreen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../utils/textStyles.dart';
+import '../constants/text_styles.dart';
 
 class SongPlayerScreen extends StatefulWidget {
   final String videoId;

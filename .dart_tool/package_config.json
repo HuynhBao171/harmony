@@ -362,6 +362,12 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "flutter_mobx",
+      "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/flutter_mobx-2.2.1+1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.19",
       "packageUri": "lib/",
@@ -394,6 +400,12 @@
     {
       "name": "frontend_server_client",
       "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "get_it",
+      "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/get_it-7.7.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -614,10 +626,28 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "mobx",
+      "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/mobx-2.3.3+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "mobx_codegen",
+      "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/mobx_codegen-2.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "modal_progress_hud_nsn",
       "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/modal_progress_hud_nsn-0.5.1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "nested",
+      "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "nm",
@@ -694,6 +724,12 @@
     {
       "name": "pool",
       "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/pool-1.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///Users/zien/.pub-cache/hosted/pub.dev/provider-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -938,7 +974,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-05-09T06:19:20.698991Z",
+  "generated": "2024-05-09T09:12:34.469977Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }
