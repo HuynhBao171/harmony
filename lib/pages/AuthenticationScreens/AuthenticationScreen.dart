@@ -118,7 +118,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       borderRadius: 50.0,
                       onPressed: () async {
-                        // SharedPreferences prefs = await SharedPreferences.getInstance();
+                        //
                         if (emailController.text.trimLeft() != "" &&
                                 passwordController.text.trimLeft() != "" &&
                                 (widget.isNewUser)
@@ -151,7 +151,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                 name = name?.substring(0, name.indexOf(" "));
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              prefs.setBool("loggedIn", true);
+                              prefs?.setBool("loggedIn", true);
                               setState(() {
                                 loader = false;
                               });

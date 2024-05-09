@@ -15,6 +15,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   @override
+  var decodedJson;
   Widget build(BuildContext context) {
     // Assuming decodedJson is available here
     var items = pick(decodedJson, 'items').value as List?;

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:harmony/core/api_client.dart';
 import 'package:harmony/pages/OnboardingScreen.dart';
 import 'package:logger/logger.dart';
 import 'firebase_options.dart';
@@ -17,7 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'utils/theme.dart';
 
 late bool isLoggedIn;
-var decodedJson;
+ApiClient apiClient = ApiClient();
+SharedPreferences? prefs;
 var logger = Logger(
   printer: PrettyPrinter(
       methodCount: 2,
@@ -30,12 +32,11 @@ var logger = Logger(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  isLoggedIn = prefs.getBool('loggedIn') ?? false;
+  prefs = await SharedPreferences.getInstance();
+  isLoggedIn = prefs?.getBool('loggedIn') ?? false;
   runApp(const Harmony());
 
 // Example copywith in freezed
@@ -70,14 +71,5 @@ class Harmony extends StatelessWidget {
         Dashboard.id: (context) => Dashboard(),
       },
     );
-  }
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
   }
 }

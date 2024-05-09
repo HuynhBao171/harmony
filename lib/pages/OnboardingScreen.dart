@@ -102,8 +102,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             await _auth.signInWithCredential(credential);
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs.setBool("loggedIn", true);
-                        prefs.setString(
+                        prefs?.setBool("loggedIn", true);
+                        prefs?.setString(
                             'currentUser',
                             value.displayName?.substring(
                                     0, value.displayName?.indexOf(" ")) ??

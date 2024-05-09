@@ -99,7 +99,7 @@ class _DashboardState extends State<Dashboard> {
                         _auth.signOut();
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs.setBool("loggedIn", false);
+                        prefs?.setBool("loggedIn", false);
                         Navigator.pushNamedAndRemoveUntil(
                             context,
                             OnboardingScreen.id,

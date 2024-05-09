@@ -1,8 +1,6 @@
 // ignore_for_file: must_be_immutable, file_names
 
 import 'dart:convert';
-import 'package:dio/dio.dart';
-import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/model/song.dart';
 import 'package:harmony/utils/extensions/dartExtensions.dart';
@@ -11,9 +9,7 @@ import 'package:harmony/utils/textStyles.dart';
 import 'package:harmony/widgets/inputFields.dart';
 import 'package:harmony/widgets/videoPlayer.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 
-import '../../api_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -29,7 +25,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  ApiClient apiClient = ApiClient();
   TextEditingController myController = TextEditingController();
   bool showResults = false;
   bool fromHome = false;
@@ -57,17 +52,15 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> saveSearchResults(List<Songs> results) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> data = [];
     for (var result in results) {
       data.add(jsonEncode(result.toJson()));
     }
-    prefs.setStringList('searchResults', data);
+    prefs?.setStringList('searchResults', data);
   }
 
   Future<List<Songs>> getSearchResults() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> data = prefs.getStringList('searchResults') ?? [];
+    List<String> data = prefs?.getStringList('searchResults') ?? [];
     List<Songs> results = [];
     for (var item in data) {
       results.add(Songs.fromJson(jsonDecode(item)));
@@ -76,17 +69,15 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> saveRecentSearches() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> data = [];
     for (var search in recentSearches) {
       data.add(jsonEncode(search));
     }
-    prefs.setStringList('recentSearches', data);
+    prefs?.setStringList('recentSearches', data);
   }
 
   Future<void> getRecentSearches() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? searches = prefs.getStringList('recentSearches');
+    List<String>? searches = prefs?.getStringList('recentSearches');
     if (searches != null) {
       for (String search in searches) {
         // print(search);

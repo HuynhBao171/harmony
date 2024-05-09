@@ -1,16 +1,14 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
-import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:harmony/api_key.dart';
-import 'package:harmony/utils/extensions/widgetExtensions.dart';
+import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
+import 'package:harmony/utils/extensions/widgetExtensions.dart';
 import 'package:harmony/model/song.dart';
 import 'package:harmony/pages/AppScreens/Dashboard.dart';
 import 'package:harmony/pages/AppScreens/PlaylistScreen.dart';
 import 'package:harmony/pages/AppScreens/RecommendationScreen.dart';
 import 'package:harmony/model/API-Model.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -264,8 +262,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               loader = true;
                             });
-                            List<Songs> list =
-                                await playlistsData(dailyMix[index].title);
+                            List<Songs> list = await apiClient
+                                .searchYoutube(dailyMix[index].title);
                             setState(() {
                               loader = false;
                             });
@@ -307,8 +305,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               loader = true;
                             });
-                            List<Songs> list =
-                                await playlistsData(albums[index].title);
+                            List<Songs> list = await apiClient
+                                .searchYoutube(albums[index].title);
                             setState(() {
                               loader = false;
                             });
@@ -337,31 +335,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-}
-
-Future<List<Songs>> playlistsData(String query) async {
-  try {
-    var url = "https://www.googleapis.com/youtube/v3/search"
-        "?part=snippet"
-        "&maxResults=10"
-        "&q=$query"
-        "&type=video"
-        "&key=$apiKey";
-
-    var response = await http.get(Uri.parse(url));
-
-    decodedJson = jsonDecode(response.body);
-
-    List<Songs> songs = (decodedJson['items'] as List).map((item) {
-      return Songs.fromJsonString(jsonEncode(item));
-    }).toList();
-
-    print('Songs: $songs');
-
-    return songs;
-  } catch (e) {
-    print('Error: $e');
-    return [];
   }
 }
