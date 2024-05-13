@@ -31,11 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController myController = TextEditingController();
   final ApiClient apiClient = getIt<ApiClient>();
   FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
-  bool isactive1 = true;
-  bool isactive2 = false;
   String username = "";
   String photoUrl = "";
   bool loader = false;
+  late Map<String, dynamic> response;
+  List<Songs> list = [];
 
   Future<void> getDetails() async {
     String? userDataString = await storage.read(key: 'currentUser');
@@ -270,8 +270,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               loader = true;
                             });
-                            List<Songs> list = await apiClient
+                            response = await apiClient
                                 .searchYoutube(dailyMix[index].title);
+                            list = (response['items'] as List)
+                                .map((item) => Songs.fromJson(item))
+                                .toList();
                             setState(() {
                               loader = false;
                             });
@@ -313,8 +316,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               loader = true;
                             });
-                            List<Songs> list = await apiClient
-                                .searchYoutube(albums[index].title);
+                            response = await apiClient
+                                .searchYoutube(dailyMix[index].title);
+                            list = (response['items'] as List)
+                                .map((item) => Songs.fromJson(item))
+                                .toList();
                             setState(() {
                               loader = false;
                             });

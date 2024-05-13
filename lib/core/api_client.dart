@@ -10,13 +10,13 @@ import 'package:harmony/model/song.dart';
 class ApiClient {
   final Dio _dio = Dio();
 
-  Future<List<Songs>> searchYoutube(String query) async {
+  Future<Map<String, dynamic>> searchYoutube(String query) async {
     try {
       var response = await _dio.get(
         'https://www.googleapis.com/youtube/v3/search',
         queryParameters: {
           'part': 'snippet',
-          'maxResults': '25',
+          'maxResults': '15',
           'q': query,
           'type': 'video',
           'key': apiKey,
@@ -24,15 +24,41 @@ class ApiClient {
       );
 
       if (response.statusCode == 200) {
-        var items = List<Map<String, dynamic>>.from(response.data['items']);
-        return items.map((item) => Songs.fromJson(item)).toList();
+        return response.data;
       } else {
         print('Failed to load search results');
-        return [];
+        return {};
       }
     } catch (e) {
       print('Failed to load search results: $e');
-      return [];
+      return {};
+    }
+  }
+
+  Future<Map<String, dynamic>> searchYoutubeNextPage(
+      String query, String nextPageToken) async {
+    try {
+      var response = await _dio.get(
+        'https://www.googleapis.com/youtube/v3/search',
+        queryParameters: {
+          'nextPageToken': nextPageToken,
+          'part': 'snippet',
+          'maxResults': '15',
+          'q': query,
+          'type': 'video',
+          'key': apiKey,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        print('Failed to load search results');
+        return {};
+      }
+    } catch (e) {
+      print('Failed to load search results: $e');
+      return {};
     }
   }
 
@@ -54,7 +80,6 @@ class ApiClient {
       FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
       // await storage.delete(key: 'currentUser');
       await storage.write(key: 'currentUser', value: jsonEncode(userData));
-      
     }
   }
 }

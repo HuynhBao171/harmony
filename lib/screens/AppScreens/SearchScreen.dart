@@ -1,19 +1,17 @@
 // ignore_for_file: must_be_immutable, file_names
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/model/song.dart';
 import 'package:harmony/utils/extensions/dartExtensions.dart';
+import 'package:harmony/utils/functions/localStorage.dart';
 import 'package:harmony/utils/network_utils.dart';
 import 'package:harmony/utils/textStyles.dart';
 import 'package:harmony/widgets/inputFields.dart';
 import 'package:harmony/widgets/videoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreen extends StatefulWidget {
   static String id = "SearchScreen";
@@ -30,7 +28,6 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController myController = TextEditingController();
   final ApiClient apiClient = getIt<ApiClient>();
-  final SharedPreferences prefs = getIt<SharedPreferences>();
   bool showResults = false;
   List<Songs> recentSearches = [];
   List<Songs> searchResults = [];
@@ -40,10 +37,25 @@ class _SearchScreenState extends State<SearchScreen> {
       .distinct()
       .debounceTime(const Duration(milliseconds: 500));
 
+  final _scrollController = ScrollController();
+  double _currentPosition = 0.0;
+  int _loadMoreCount = 0;
+  final List<DateTime> _loadTimes = [];
+  bool _canLoadMore = true;
+  String nextPageToken = '';
+  late Map<String, dynamic> response;
+
   @override
   void initState() {
     super.initState();
     getRecentSearches();
+    _debouncedSearchQuery.listen((query) {
+      if (query.isNotEmpty) {
+        showResults = true;
+        searchYoutube(query);
+      }
+    });
+
     if (widget.searchQuery != null) {
       searchYoutube(widget.searchQuery!);
       setState(() {
@@ -51,11 +63,6 @@ class _SearchScreenState extends State<SearchScreen> {
         showResults = true;
       });
     }
-    _debouncedSearchQuery.listen((query) {
-      if (query.isNotEmpty) {
-        searchYoutube(query);
-      }
-    });
   }
 
   Timer? _debounceTimer;
@@ -84,51 +91,35 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> saveSearchResults(List<Songs> results) async {
-    List<String> data = [];
-    for (var result in results) {
-      data.add(jsonEncode(result.toJson()));
-    }
-    prefs.setStringList('searchResults', data);
+    await saveList('searchResults', results);
   }
 
   Future<List<Songs>> getSearchResults() async {
-    List<String> data = prefs.getStringList('searchResults') ?? [];
-    List<Songs> results = [];
-    for (var item in data) {
-      results.add(Songs.fromJson(jsonDecode(item)));
-    }
-    return results;
+    return getList('searchResults');
   }
 
   Future<void> saveRecentSearches() async {
-    List<String> data = [];
-    for (var search in recentSearches) {
-      data.add(jsonEncode(search));
-    }
-    prefs.setStringList('recentSearches', data);
+    await saveList('recentSearches', recentSearches);
   }
 
   Future<void> getRecentSearches() async {
-    List<String>? searches = prefs.getStringList('recentSearches');
-    if (searches != null) {
-      for (String search in searches) {
-        // print(search);
-        var json = jsonDecode(search);
-        setState(() {
-          recentSearches.add(Songs.fromJson(json));
-        });
-      }
-    }
+    List<Songs> searches = await getList('recentSearches');
+    setState(() {
+      recentSearches = searches;
+    });
   }
 
   void searchYoutube(String query) async {
     logger.i('Searching for $query');
     if (await NetworkUtils.isConnected()) {
       logger.i('Connected to the internet');
-      List<Songs> results = await apiClient.searchYoutube(query);
+      response = await apiClient.searchYoutube(query);
+      var items = List<Map<String, dynamic>>.from(response['items']);
+      List<Songs> results = items.map((item) => Songs.fromJson(item)).toList();
       saveSearchResults(results);
       setState(() {
         searchResults = results;
+        nextPageToken = response['nextPageToken'];
       });
     } else {
       logger.i('Not connected to the internet');
@@ -213,54 +204,73 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: SizedBox(
         height: double.infinity,
-        // decoration: kBoxDecoration,
         child: (showResults)
-            ? ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: searchResults.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Image.network(
-                      searchResults[index].thumbnailUrl,
-                      height: 120,
-                    ),
-                    title: Text(
-                      searchResults[index].title.trimTitle(),
-                      style: kMusicTitleStyle,
-                    ),
-                    subtitle: Text(
-                      searchResults[index].channelTitle,
-                      style: kMusicInfoStyle,
-                    ),
-                    trailing: const Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                    ),
-                    onTap: () => {
-                      recentSearches.insert(
-                        0,
-                        Songs(
-                          id: searchResults[index].id,
-                          channelTitle: searchResults[index].channelTitle,
-                          title: searchResults[index].title.trimTitle(),
-                          thumbnailUrl: searchResults[index].thumbnailUrl,
-                        ),
-                      ),
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VideoPlayerScreen(
-                            videoId: searchResults[index].id,
-                            thumbnailUrl: searchResults[index].thumbnailUrl,
-                            title: searchResults[index].title.trimTitle(),
-                            channelTitle: searchResults[index].channelTitle,
-                          ),
-                        ),
-                      )
-                    },
-                  );
+            ? NotificationListener<ScrollNotification>(
+                onNotification: (notification) {
+                  if (notification is ScrollUpdateNotification) {
+                    _currentPosition = notification.metrics.pixels;
+                    if (_currentPosition ==
+                        notification.metrics.maxScrollExtent) {
+                      _loadMoreData();
+                    }
+                  }
+                  return false;
                 },
+                child: ListView(
+                  children: [
+                    ListView.builder(
+                      controller: _scrollController,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: searchResults.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: Image.network(
+                            searchResults[index].thumbnailUrl,
+                            height: 120,
+                          ),
+                          title: Text(
+                            searchResults[index].title.trimTitle(),
+                            style: kMusicTitleStyle,
+                          ),
+                          subtitle: Text(
+                            searchResults[index].channelTitle,
+                            style: kMusicInfoStyle,
+                          ),
+                          trailing: const Icon(
+                            Icons.play_arrow,
+                            color: Colors.white,
+                          ),
+                          onTap: () => {
+                            recentSearches.insert(
+                              0,
+                              Songs(
+                                id: searchResults[index].id,
+                                channelTitle: searchResults[index].channelTitle,
+                                title: searchResults[index].title.trimTitle(),
+                                thumbnailUrl: searchResults[index].thumbnailUrl,
+                              ),
+                            ),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VideoPlayerScreen(
+                                  videoId: searchResults[index].id,
+                                  thumbnailUrl:
+                                      searchResults[index].thumbnailUrl,
+                                  title: searchResults[index].title.trimTitle(),
+                                  channelTitle:
+                                      searchResults[index].channelTitle,
+                                ),
+                              ),
+                            )
+                          },
+                        );
+                      },
+                    ),
+                    _showLoadMoreButton(),
+                  ],
+                ),
               )
             : ListView.builder(
                 scrollDirection: Axis.vertical,
@@ -306,5 +316,57 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
       ),
     );
+  }
+
+  void _loadMoreData() async {
+    if (await NetworkUtils.isConnected() && _canLoadMore) {
+      logger.i('Connected to the internet');
+      response = await apiClient.searchYoutubeNextPage(
+          myController.text, nextPageToken);
+
+      var items = List<Map<String, dynamic>>.from(response['items']);
+      List<Songs> moreResults =
+          items.map((item) => Songs.fromJson(item)).toList();
+      setState(() {
+        searchResults.addAll(moreResults);
+        _loadMoreCount++;
+        _loadTimes.add(DateTime.now());
+        nextPageToken = response['nextPageToken'];
+
+        if (_loadTimes.length >= 5) {
+          final lastLoadTime = _loadTimes.last;
+          final timeDifference = lastLoadTime.difference(_loadTimes.first);
+          if (timeDifference.inSeconds <= 10) {
+            _canLoadMore = false;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'You have loaded more data too fast. Please use the "Load More" button to continue.',
+                ),
+              ),
+            );
+            _loadTimes.clear();
+          }
+        }
+      });
+    }
+  }
+
+  Widget _showLoadMoreButton() {
+    if (_loadMoreCount >= 5) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            _canLoadMore = true;
+            _loadMoreData();
+            _loadMoreCount = 0;
+          },
+          child: const Text('Load More'),
+        ),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }
