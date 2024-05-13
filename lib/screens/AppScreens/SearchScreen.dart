@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, file_names
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
@@ -10,6 +11,7 @@ import 'package:harmony/utils/textStyles.dart';
 import 'package:harmony/widgets/inputFields.dart';
 import 'package:harmony/widgets/videoPlayer.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,9 +32,13 @@ class _SearchScreenState extends State<SearchScreen> {
   final ApiClient apiClient = getIt<ApiClient>();
   final SharedPreferences prefs = getIt<SharedPreferences>();
   bool showResults = false;
-  bool fromHome = false;
   List<Songs> recentSearches = [];
   List<Songs> searchResults = [];
+
+  final _searchQueryController = StreamController<String>.broadcast();
+  Stream<String> get _debouncedSearchQuery => _searchQueryController.stream
+      .distinct()
+      .debounceTime(const Duration(milliseconds: 500));
 
   @override
   void initState() {
@@ -43,13 +49,36 @@ class _SearchScreenState extends State<SearchScreen> {
       setState(() {
         myController.text = widget.searchQuery!;
         showResults = true;
-        fromHome = true;
       });
     }
+    _debouncedSearchQuery.listen((query) {
+      if (query.isNotEmpty) {
+        searchYoutube(query);
+      }
+    });
+  }
+
+  Timer? _debounceTimer;
+
+  Future<void> searchAPICall(BuildContext context, String query) async {
+    // Cancel the previous debounce timer if it exists to prevent extra calls
+    if (_debounceTimer != null && _debounceTimer!.isActive) {
+      _debounceTimer!.cancel();
+    }
+
+    // Start a new debounce timer
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
+      //Make API call or do something
+      if (query.isNotEmpty) {
+        searchYoutube(query);
+      }
+    });
   }
 
   @override
-  void dispose() async {
+  void dispose() {
+    _debounceTimer?.cancel();
+    _searchQueryController.close();
     saveRecentSearches();
     super.dispose();
   }
@@ -108,11 +137,6 @@ class _SearchScreenState extends State<SearchScreen> {
         searchResults = results;
       });
     }
-    // List<Songs> results = await apiClient.searchYoutube(query);
-    //   saveSearchResults(results);
-    //   setState(() {
-    //     searchResults = results;
-    //   });
   }
 
   @override
@@ -162,13 +186,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         myController: myController,
                         hintText: "What do you want to listen to?",
                         borderRadius: 5,
-                        onSubmitted: (query) {
-                          if (query != null) {
-                            setState(() {
-                              showResults = true;
-                            });
-                            searchYoutube(query);
-                          }
+                        onChanged: (query) {
+                          _searchQueryController.sink.add(query!);
+                          // searchAPICall(context, query!);
                         },
                       ),
                     ),

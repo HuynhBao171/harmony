@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/utils/extensions/widgetExtensions.dart';
@@ -28,20 +30,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController myController = TextEditingController();
   final ApiClient apiClient = getIt<ApiClient>();
+  FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
   bool isactive1 = true;
   bool isactive2 = false;
-  String username = "User";
+  String username = "";
   String photoUrl = "";
   bool loader = false;
 
   Future<void> getDetails() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      var name = user.displayName ?? username;
-      int index = name.indexOf(" ");
-      if (index != -1) name = name.substring(0, name.indexOf(" "));
-      username = name;
-      photoUrl = user.photoURL ?? photoUrl;
+    String? userDataString = await storage.read(key: 'currentUser');
+    // logger.i("User Data String: $userDataString");
+    if (userDataString != null) {
+      // logger.i("userDataString not null");
+      Map<String, dynamic> userData = jsonDecode(userDataString);
+      // logger.i("UserData: $userData");
+      username = userData['username'] ?? 'Error Fetching Username';
+      photoUrl = userData['photoUrl'] ?? 'Error Fetching Photo URL';
+    } else {
+      username = 'Error Fetching Username';
+      photoUrl = 'Error Fetching Photo URL';
     }
   }
 

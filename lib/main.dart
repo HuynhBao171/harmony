@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:harmony/core/api_client.dart';
 import 'package:harmony/screens/OnboardingScreen.dart';
@@ -29,9 +31,16 @@ setupGetIt() async {
         printEmojis: true,
         printTime: false),
   ));
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  getIt.registerSingleton<FirebaseAuth>(auth);
   final prefs = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferences>(prefs);
+  const storage = FlutterSecureStorage(
+      iOptions: IOSOptions(accessibility: KeychainAccessibility.unlocked),
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      ));
+  getIt.registerSingleton<FlutterSecureStorage>(storage);
 }
 
 final Logger logger = getIt<Logger>();

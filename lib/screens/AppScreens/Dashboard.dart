@@ -1,8 +1,13 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:harmony/core/api_client.dart';
+import 'package:harmony/main.dart';
 import 'package:harmony/screens/OnboardingScreen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,18 +22,34 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = getIt<FirebaseAuth>();
+  FlutterSecureStorage storage = getIt<FlutterSecureStorage>();
   String username = "User";
-  late String email;
+  String email = "";
   String photoUrl = "";
   bool loader = false;
 
+  // Future<void> getDetails() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) {
+  //     username = user.displayName ?? username;
+  //     photoUrl = user.photoURL ?? photoUrl;
+  //     email = user.email ?? "Error Fetching Email";
+  //   }
+  // }
+
   Future<void> getDetails() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      username = user.displayName ?? username;
-      photoUrl = user.photoURL ?? photoUrl;
-      email = user.email ?? "Error Fetching Email";
+    String? userDataString = await storage.read(key: 'currentUser');
+    // logger.i("User Data String: $userDataString");
+    if (userDataString != null) {
+      // logger.i("userDataString not null");
+      Map<String, dynamic> userData = jsonDecode(userDataString);
+      // logger.i("UserData: $userData");
+      username = userData['username'] ?? 'Error Fetching Username';
+      photoUrl = userData['photoUrl'] ?? 'Error Fetching Photo URL';
+    } else {
+      username = 'Error Fetching Username';
+      photoUrl = 'Error Fetching Photo URL';
     }
   }
 

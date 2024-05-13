@@ -2,7 +2,6 @@ import 'package:deep_pick/deep_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:harmony/utils/textStyles.dart';
 import 'package:harmony/utils/extensions/widgetExtensions.dart';
-import 'package:harmony/main.dart';
 
 class DetailScreen extends StatefulWidget {
   final String videoId;
@@ -16,6 +15,7 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   var decodedJson;
+  @override
   Widget build(BuildContext context) {
     // Assuming decodedJson is available here
     var items = pick(decodedJson, 'items').value as List?;
@@ -25,7 +25,7 @@ class _DetailScreenState extends State<DetailScreen> {
         orElse: () => null);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Screen'),
+        title: const Text('Detail Screen'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

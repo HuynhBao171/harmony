@@ -37,6 +37,6 @@ class Songs {
   }
 
   String toJsonString() {
-    return json.encode(this.toJson());
+    return json.encode(toJson());
   }
 }

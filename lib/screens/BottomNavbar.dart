@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:harmony/core/api_client.dart';
+import 'package:harmony/main.dart';
 import 'package:harmony/screens/AppScreens/SearchScreen.dart';
 import 'package:harmony/screens/AssistantScreens/assistant_page.dart';
 
@@ -13,7 +15,8 @@ class BottomNavbar extends StatefulWidget {
   static String id = "BottomNavbar";
 
   late String? searchQuery;
-  BottomNavbar({super.key, 
+  BottomNavbar({
+    super.key,
     this.searchQuery,
   });
   @override
@@ -23,13 +26,16 @@ class BottomNavbar extends StatefulWidget {
 class _BottomNavbarState extends State<BottomNavbar> {
   final PageController controller = PageController();
   int pageIndex = 0;
+  final ApiClient apiClient = getIt<ApiClient>();
   // ignore: prefer_typing_uninitialized_variables
   late var screens;
 
-  void setScreens(String? value){
+  void setScreens(String? value) {
     screens = [
       const HomeScreen(),
-      SearchScreen(searchQuery: value,),
+      SearchScreen(
+        searchQuery: value,
+      ),
       const RadioHS(),
       const AssistantPage(),
     ];
@@ -38,8 +44,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await apiClient.getDetailsUser();
+    });
     setScreens(widget.searchQuery);
-    if(widget.searchQuery != null) {
+    if (widget.searchQuery != null) {
       pageIndex = 1;
     }
   }
@@ -80,20 +89,20 @@ class _BottomNavbarState extends State<BottomNavbar> {
               color: Colors.white,
               tabs: const [
                 GButton(
-                  icon:Icons.home_outlined,
-                  text:'Home',
+                  icon: Icons.home_outlined,
+                  text: 'Home',
                 ),
                 GButton(
-                  icon:Icons.search,
-                  text:'Search',
+                  icon: Icons.search,
+                  text: 'Search',
                 ),
                 GButton(
-                  icon:Icons.radio_outlined,
-                  text:'Radio',
+                  icon: Icons.radio_outlined,
+                  text: 'Radio',
                 ),
                 GButton(
-                  icon:Icons.chat_outlined,
-                  text:'Assistant',
+                  icon: Icons.chat_outlined,
+                  text: 'Assistant',
                 ),
               ],
               selectedIndex: pageIndex,
