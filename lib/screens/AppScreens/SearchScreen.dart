@@ -111,7 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void searchYoutube(String query) async {
     logger.i('Searching for $query');
-    if (await NetworkUtils.isConnected()) {
+    if (await NetworkUtils.isConnectedNetworks()) {
       logger.i('Connected to the internet');
       response = await apiClient.searchYoutube(query);
       var items = List<Map<String, dynamic>>.from(response['items']);
@@ -319,7 +319,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _loadMoreData() async {
-    if (await NetworkUtils.isConnected() && _canLoadMore) {
+    if (await NetworkUtils.isConnectedNetworks() && _canLoadMore) {
       logger.i('Connected to the internet');
       response = await apiClient.searchYoutubeNextPage(
           myController.text, nextPageToken);

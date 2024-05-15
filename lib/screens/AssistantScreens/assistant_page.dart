@@ -1,15 +1,19 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:harmony/widgets/customText.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:harmony/api_key.dart';
 import 'package:harmony/screens/AssistantScreens/models/config/gemini_config.dart';
 import 'package:harmony/screens/AssistantScreens/models/config/gemini_safety_settings.dart';
 import 'package:harmony/screens/AssistantScreens/models/gemini/gemini.dart';
 import 'package:image_picker/image_picker.dart';
-
-const apiKey = "AIzaSyC2MRFUJgJEDJbyF6cyNqQxtVZrPnoBAWI";
+import 'package:speech_to_text/speech_to_text.dart';
 
 class AssistantPage extends StatefulWidget {
   const AssistantPage({super.key});
@@ -26,20 +30,13 @@ class _AssistantPageState extends State<AssistantPage> {
         length: 2,
         child: Scaffold(
             appBar: AppBar(
-              title: const CustomText(
-                  text: "Trợ lý ảo",
-                  color: Colors.black,
-                  fontSize: 21,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.5,
-                  height: 1.2),
-              centerTitle: true,
-              bottom: const TabBar(
+              title: const TabBar(
                 tabs: [
                   Tab(text: "Text Only"),
                   Tab(text: "Text with Image"),
                 ],
               ),
+              centerTitle: true,
             ),
             body: TabBarView(
               children: [TextOnly(user: 'User'), TextWithImage(user: 'User')],
@@ -66,6 +63,15 @@ class _TextOnlyState extends State<TextOnly> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _controller = ScrollController();
 
+  final SpeechToText _speechToText = SpeechToText();
+  bool _isListening = false;
+
+  final FlutterTts flutterTts = FlutterTts();
+
+  bool isServiceRunning = false;
+  ReceivePort mainReceivePort = ReceivePort();
+  Timer? _speechTimer;
+
   late final gemini;
 
   final safety1 = SafetySettings(
@@ -81,8 +87,9 @@ class _TextOnlyState extends State<TextOnly> {
 
   @override
   void initState() {
-    gemini =
-        GoogleGemini(apiKey: apiKey, safetySettings: [safety1], config: config);
+    _initTts();
+    gemini = GoogleGemini(
+        apiKey: apiGeminiKey, safetySettings: [safety1], config: config);
     super.initState();
     // Lời chào từ Gemini
     textChat.add({
@@ -90,9 +97,32 @@ class _TextOnlyState extends State<TextOnly> {
       "text":
           "Xin chào! Tôi ở đây để giúp bạn có trải nghiệm âm nhạc tuyệt vời.",
     });
+    _speak(textChat[0]['text']);
+    IsolateNameServer.registerPortWithName(mainReceivePort.sendPort, 'main');
+    mainReceivePort.listen((message) {
+      setState(() {
+        textChat.add({"role": "Gemini", "text": message});
+      });
+      scrollToTheEnd();
+      _speak(message.toString());
+      _startListening();
+    });
   }
 
-  // Text only input
+  Future _initTts() async {
+    await flutterTts.setLanguage("vi-VN");
+  }
+
+  @override
+  void dispose() {
+    _speechTimer?.cancel();
+    super.dispose();
+  }
+
+  Future _speak(String text) async {
+    await flutterTts.speak(text);
+  }
+
   void fromText({required String query, required String user}) {
     setState(() {
       loading = true;
@@ -113,6 +143,7 @@ class _TextOnlyState extends State<TextOnly> {
         });
       });
       scrollToTheEnd();
+      _speak(value.text);
     }).catchError((error, stackTrace) {
       setState(() {
         loading = false;
@@ -122,7 +153,56 @@ class _TextOnlyState extends State<TextOnly> {
         });
       });
       scrollToTheEnd();
+      _speak(error.toString());
     });
+  }
+
+  Future<void> _startListening() async {
+    if (!_isListening) {
+      bool available = await _speechToText.initialize();
+      if (available) {
+        setState(() => _isListening = true);
+        _speechToText.listen(
+          onResult: (result) {
+            // Kiểm tra nếu người dùng nói "Dừng" hoặc "dừng"
+            if (result.recognizedWords == "Dừng" ||
+                result.recognizedWords == "dừng") {
+              _stopListening();
+              return;
+            }
+            // Khởi động timer 2 giây
+            _speechTimer?.cancel();
+            _speechTimer = Timer(const Duration(seconds: 2), () {
+              _stopListening();
+              _sendMessageToBackground(result.recognizedWords);
+            });
+          },
+        );
+      }
+    } else {
+      _stopListening();
+    }
+  }
+
+  void _stopListening() {
+    setState(() => _isListening = false);
+    _speechToText.stop();
+  }
+
+  void _sendMessageToBackground(String message) {
+    IsolateNameServer.lookupPortByName('geminachat')?.send(message);
+  }
+
+  Future<void> _toggleBackgroundService() async {
+    final service = FlutterBackgroundService();
+    bool isRunning = await service.isRunning();
+    if (isRunning) {
+      service.invoke("stopService");
+      setState(() => isServiceRunning = false);
+    } else {
+      service.startService();
+      setState(() => isServiceRunning = true);
+    }
   }
 
   void scrollToTheEnd() {
@@ -165,7 +245,7 @@ class _TextOnlyState extends State<TextOnly> {
                 child: TextField(
                   controller: _textController,
                   decoration: InputDecoration(
-                    hintText: "Type a message",
+                    hintText: "Write a message",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none),
@@ -174,6 +254,25 @@ class _TextOnlyState extends State<TextOnly> {
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                 ),
+              ),
+              IconButton(
+                icon: isServiceRunning
+                    ? const Icon(Icons.stop)
+                    : const Icon(Icons.mic),
+                onPressed: () async {
+                  await _toggleBackgroundService();
+                  if (isServiceRunning) {
+                    _startListening(); // Bắt đầu ghi âm khi service chạy
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Background service started"),
+                    ));
+                  } else {
+                    _stopListening(); // Dừng ghi âm khi service dừng
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Background service stopped"),
+                    ));
+                  }
+                },
               ),
               IconButton(
                 icon: loading

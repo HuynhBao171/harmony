@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:harmony/core/api_client.dart';
@@ -51,6 +52,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await setupGetIt();
+  FlutterBluePlus.setLogLevel(LogLevel.verbose, color: true);
   runApp(const Harmony());
 }
 

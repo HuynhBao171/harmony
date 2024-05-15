@@ -4,16 +4,19 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:harmony/core/api_client.dart';
 import 'package:harmony/main.dart';
 import 'package:harmony/screens/OnboardingScreen.dart';
+import 'package:harmony/widgets/bluetoothDialog.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/buttons.dart';
 import '../BottomNavbar.dart';
+
+BluetoothDevice? connectedDevice;
 
 class Dashboard extends StatefulWidget {
   static String id = "Dashboard";
@@ -28,15 +31,6 @@ class _DashboardState extends State<Dashboard> {
   String email = "";
   String photoUrl = "";
   bool loader = false;
-
-  // Future<void> getDetails() async {
-  //   User? user = FirebaseAuth.instance.currentUser;
-  //   if (user != null) {
-  //     username = user.displayName ?? username;
-  //     photoUrl = user.photoURL ?? photoUrl;
-  //     email = user.email ?? "Error Fetching Email";
-  //   }
-  // }
 
   Future<void> getDetails() async {
     String? userDataString = await storage.read(key: 'currentUser');
@@ -67,7 +61,56 @@ class _DashboardState extends State<Dashboard> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const GoBackButton(),
+                Padding(
+                  padding: const EdgeInsets.all(25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const GoBackButton(
+                        padding: EdgeInsets.all(0),
+                      ),
+                      GestureDetector(
+                        onDoubleTap: () async {
+                          if (connectedDevice != null) {
+                            setState(() {
+                              connectedDevice!.disconnect();
+                              connectedDevice = null;
+                            });
+                          }
+                        },
+                        child: Text(
+                          connectedDevice?.name ?? 'No device connected',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final device = await showDialog<BluetoothDevice>(
+                            context: context,
+                            builder: (context) {
+                              return BleScanner(
+                                  connectedDevice: connectedDevice);
+                            },
+                          );
+                          if (device != null) {
+                            setState(() {
+                              connectedDevice = device;
+                            });
+                          }
+                        },
+                        child: Icon(
+                          connectedDevice != null
+                              ? Icons.bluetooth_connected
+                              : Icons.bluetooth_disabled,
+                          color: connectedDevice != null
+                              ? Colors.blue
+                              : Colors.grey,
+                          size: 42,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 50,
                 ),
