@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -90,14 +88,13 @@ class _TextOnlyState extends State<TextOnly> {
     // Lời chào từ Gemini
     textChat.add({
       "role": "Gemini",
-      "text":
-          "Xin chào! Tôi ở đây để giúp bạn có trải nghiệm âm nhạc tuyệt vời.",
+      "text": "Hello! I'm here to help you have a great musical experience.",
     });
     _speak(textChat[0]['text']);
   }
 
   Future _initTts() async {
-    await flutterTts.setLanguage("vi-VN");
+    await flutterTts.setLanguage("en-US");
   }
 
   @override
@@ -108,7 +105,14 @@ class _TextOnlyState extends State<TextOnly> {
   }
 
   Future _speak(String text) async {
-    await flutterTts.speak(text);
+    try {
+      await flutterTts.speak(text);
+      flutterTts.setCompletionHandler(() {
+        _startListening();
+      });
+    } catch (e) {
+      print('Lỗi phát âm: $e');
+    }
   }
 
   void fromText({required String query, required String user}) {
@@ -118,15 +122,14 @@ class _TextOnlyState extends State<TextOnly> {
         "role": user,
         "text": query,
       });
-      // _textController.clear();
     });
     scrollToTheEnd();
 
     gemini.generateFromText(query).then((value) {
       setState(() {
         loading = false;
-      _textController.clear();
-        
+        _textController.clear();
+
         textChat.add({
           "role": "Gemini",
           "text": value.text,
@@ -134,7 +137,7 @@ class _TextOnlyState extends State<TextOnly> {
       });
       scrollToTheEnd();
       _speak(value.text);
-      _startListening();
+      // _startListening();
     }).catchError((error, stackTrace) {
       setState(() {
         loading = false;
@@ -153,7 +156,7 @@ class _TextOnlyState extends State<TextOnly> {
       bool available = await _speechToText.initialize();
       if (available) {
         setState(() => _isListening = true);
-        _textController.clear(); // Clear textController khi bắt đầu ghi âm
+        _textController.clear();
         _speechToText.listen(
           onResult: (result) {
             _speechStream.add(result.recognizedWords);
