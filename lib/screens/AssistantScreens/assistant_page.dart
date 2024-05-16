@@ -144,6 +144,8 @@ class _TextOnlyState extends State<TextOnly> {
       });
       scrollToTheEnd();
       _speak(value.text);
+      // Khởi động lại ghi âm sau khi nhận được phản hồi
+      _startListening(); // Thêm câu lệnh này
     }).catchError((error, stackTrace) {
       setState(() {
         loading = false;
@@ -173,8 +175,12 @@ class _TextOnlyState extends State<TextOnly> {
             // Khởi động timer 2 giây
             _speechTimer?.cancel();
             _speechTimer = Timer(const Duration(seconds: 2), () {
+              // Cập nhật textController và gọi fromText
+              setState(() {
+                _textController.text = result.recognizedWords;
+              });
+              fromText(query: _textController.text, user: widget.user);
               _stopListening();
-              _sendMessageToBackground(result.recognizedWords);
             });
           },
         );
@@ -190,7 +196,7 @@ class _TextOnlyState extends State<TextOnly> {
   }
 
   void _sendMessageToBackground(String message) {
-    IsolateNameServer.lookupPortByName('geminachat')?.send(message);
+    IsolateNameServer.lookupPortByName('geminichat')?.send(message);
   }
 
   Future<void> _toggleBackgroundService() async {
