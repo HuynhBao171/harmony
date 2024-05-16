@@ -21,25 +21,27 @@ class GoogleGemini {
   /// If the request fails, it returns the [Error] as a [String] instead
   ///
   Future<GeminiResponse> generateFromText(String query) async {
-    String text = '';
+  String text = '';
 
-    GeminiHttpResponse httpResponse = await apiGenerateText(
-        query: query,
-        apiKey: apiKey,
-        config: config,
-        safetySettings: safetySettings,
-        model: "gemini-pro");
+  GeminiHttpResponse httpResponse = await apiGenerateText(
+      query: query,
+      apiKey: apiKey,
+      config: config,
+      safetySettings: safetySettings,
+      model: "gemini-pro");
 
-    if (httpResponse.candidates.isNotEmpty) {
-      for (var part in httpResponse.candidates[0].content!['parts']) {
-        text += part['text'];
-      }
+  if (httpResponse.candidates.isNotEmpty &&
+      httpResponse.candidates[0].content != null &&
+      httpResponse.candidates[0].content!['parts'] != null) {
+    for (var part in httpResponse.candidates[0].content!['parts']) {
+      text += part['text'];
     }
-
-    GeminiResponse response =
-        GeminiResponse(text: text, response: httpResponse);
-    return response;
   }
+
+  GeminiResponse response =
+      GeminiResponse(text: text, response: httpResponse);
+  return response;
+}
 
   Future<GeminiResponse> generateFromTextAndImages(
       {required String query, required File image}) async {

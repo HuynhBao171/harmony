@@ -118,13 +118,15 @@ class _TextOnlyState extends State<TextOnly> {
         "role": user,
         "text": query,
       });
-      _textController.clear();
+      // _textController.clear();
     });
     scrollToTheEnd();
 
     gemini.generateFromText(query).then((value) {
       setState(() {
         loading = false;
+      _textController.clear();
+        
         textChat.add({
           "role": "Gemini",
           "text": value.text,
@@ -151,18 +153,20 @@ class _TextOnlyState extends State<TextOnly> {
       bool available = await _speechToText.initialize();
       if (available) {
         setState(() => _isListening = true);
+        _textController.clear(); // Clear textController khi bắt đầu ghi âm
         _speechToText.listen(
           onResult: (result) {
             _speechStream.add(result.recognizedWords);
-            setState(() {
-              _textController.text = result.recognizedWords;
-            });
+            if (result.recognizedWords.toUpperCase() == 'STOP') {
+              _stopListening();
+              return;
+            }
 
             if (_speechTimer != null) _speechTimer?.cancel();
             _speechTimer = Timer(const Duration(seconds: 2), () {
               if (_isListening) {
                 _stopListening();
-                fromText(query: _textController.text, user: widget.user);
+                fromText(query: result.recognizedWords, user: widget.user);
               }
             });
           },
@@ -176,12 +180,13 @@ class _TextOnlyState extends State<TextOnly> {
   void _stopListening() {
     setState(() => _isListening = false);
     _speechToText.stop();
-    _textController.clear();
 
     _speechStream.add('');
     _speechStream.close();
-
     _speechStream = BehaviorSubject<String>();
+
+    // Dừng timer
+    _speechTimer?.cancel();
   }
 
   void scrollToTheEnd() {
