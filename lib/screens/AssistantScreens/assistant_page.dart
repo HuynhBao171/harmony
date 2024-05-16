@@ -2,11 +2,7 @@
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:isolate';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:harmony/api_key.dart';
 import 'package:harmony/screens/AssistantScreens/models/config/gemini_config.dart';
@@ -14,6 +10,7 @@ import 'package:harmony/screens/AssistantScreens/models/config/gemini_safety_set
 import 'package:harmony/screens/AssistantScreens/models/gemini/gemini.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:rxdart/rxdart.dart';
 
 class AssistantPage extends StatefulWidget {
   const AssistantPage({super.key});
@@ -58,7 +55,6 @@ class TextOnly extends StatefulWidget {
 class _TextOnlyState extends State<TextOnly> {
   bool loading = false;
   List textChat = [];
-  List textWithImageChat = [];
 
   final TextEditingController _textController = TextEditingController();
   final ScrollController _controller = ScrollController();
@@ -68,9 +64,9 @@ class _TextOnlyState extends State<TextOnly> {
 
   final FlutterTts flutterTts = FlutterTts();
 
-  bool isServiceRunning = false;
-  ReceivePort mainReceivePort = ReceivePort();
   Timer? _speechTimer;
+
+  var _speechStream = BehaviorSubject<String>();
 
   late final gemini;
 
@@ -98,15 +94,6 @@ class _TextOnlyState extends State<TextOnly> {
           "Xin chào! Tôi ở đây để giúp bạn có trải nghiệm âm nhạc tuyệt vời.",
     });
     _speak(textChat[0]['text']);
-    IsolateNameServer.registerPortWithName(mainReceivePort.sendPort, 'main');
-    mainReceivePort.listen((message) {
-      setState(() {
-        textChat.add({"role": "Gemini", "text": message});
-      });
-      scrollToTheEnd();
-      _speak(message.toString());
-      _startListening();
-    });
   }
 
   Future _initTts() async {
@@ -115,7 +102,8 @@ class _TextOnlyState extends State<TextOnly> {
 
   @override
   void dispose() {
-    _speechTimer?.cancel();
+    _speechStream.close();
+    _speechToText.stop();
     super.dispose();
   }
 
@@ -144,8 +132,7 @@ class _TextOnlyState extends State<TextOnly> {
       });
       scrollToTheEnd();
       _speak(value.text);
-      // Khởi động lại ghi âm sau khi nhận được phản hồi
-      _startListening(); // Thêm câu lệnh này
+      _startListening();
     }).catchError((error, stackTrace) {
       setState(() {
         loading = false;
@@ -166,21 +153,17 @@ class _TextOnlyState extends State<TextOnly> {
         setState(() => _isListening = true);
         _speechToText.listen(
           onResult: (result) {
-            // Kiểm tra nếu người dùng nói "Dừng" hoặc "dừng"
-            if (result.recognizedWords == "Dừng" ||
-                result.recognizedWords == "dừng") {
-              _stopListening();
-              return;
-            }
-            // Khởi động timer 2 giây
-            _speechTimer?.cancel();
+            _speechStream.add(result.recognizedWords);
+            setState(() {
+              _textController.text = result.recognizedWords;
+            });
+
+            if (_speechTimer != null) _speechTimer?.cancel();
             _speechTimer = Timer(const Duration(seconds: 2), () {
-              // Cập nhật textController và gọi fromText
-              setState(() {
-                _textController.text = result.recognizedWords;
-              });
-              fromText(query: _textController.text, user: widget.user);
-              _stopListening();
+              if (_isListening) {
+                _stopListening();
+                fromText(query: _textController.text, user: widget.user);
+              }
             });
           },
         );
@@ -193,22 +176,12 @@ class _TextOnlyState extends State<TextOnly> {
   void _stopListening() {
     setState(() => _isListening = false);
     _speechToText.stop();
-  }
+    _textController.clear();
 
-  void _sendMessageToBackground(String message) {
-    IsolateNameServer.lookupPortByName('geminichat')?.send(message);
-  }
+    _speechStream.add('');
+    _speechStream.close();
 
-  Future<void> _toggleBackgroundService() async {
-    final service = FlutterBackgroundService();
-    bool isRunning = await service.isRunning();
-    if (isRunning) {
-      service.invoke("stopService");
-      setState(() => isServiceRunning = false);
-    } else {
-      service.startService();
-      setState(() => isServiceRunning = true);
-    }
+    _speechStream = BehaviorSubject<String>();
   }
 
   void scrollToTheEnd() {
@@ -248,36 +221,30 @@ class _TextOnlyState extends State<TextOnly> {
           child: Row(
             children: [
               Expanded(
-                child: TextField(
-                  controller: _textController,
-                  decoration: InputDecoration(
-                    hintText: "Write a message",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none),
-                    fillColor: Colors.transparent,
-                  ),
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                ),
+                child: StreamBuilder<String>(
+                    stream: _speechStream,
+                    builder: (context, snapshot) {
+                      _textController.text = snapshot.data ?? '';
+                      return TextField(
+                        controller: _textController,
+                        decoration: InputDecoration(
+                          hintText: "Write a message",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.transparent,
+                        ),
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                      );
+                    }),
               ),
               IconButton(
-                icon: isServiceRunning
-                    ? const Icon(Icons.stop)
-                    : const Icon(Icons.mic),
-                onPressed: () async {
-                  await _toggleBackgroundService();
-                  if (isServiceRunning) {
-                    _startListening(); // Bắt đầu ghi âm khi service chạy
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Background service started"),
-                    ));
-                  } else {
-                    _stopListening(); // Dừng ghi âm khi service dừng
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Background service stopped"),
-                    ));
-                  }
+                icon: _isListening
+                    ? const Icon(Icons.mic)
+                    : const Icon(Icons.mic_off),
+                onPressed: () {
+                  _startListening();
                 },
               ),
               IconButton(
